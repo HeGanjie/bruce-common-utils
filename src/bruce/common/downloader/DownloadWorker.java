@@ -24,23 +24,23 @@ public final class DownloadWorker extends Worker<DownloadTask> {
 				maxTryTimesPtr.value > 0) {
 			try {
 				myTask.download(mainTask, (long) Math.ceil((float)mainTask.downLen / 100));
-				CommonUtils.trace(getClass(), CommonUtils.buildString("åˆ†æ®µ ", myIndex,
-						" ä¸‹è½½ ", myTask.getState().name(), " ", myTask.saveFileAt));
+				CommonUtils.trace(getClass(), CommonUtils.buildString("·Ö¶Î ", myIndex,
+						" ÏÂÔØ ", myTask.getState().name(), " ", myTask.saveFileAt));
 			} catch (RuntimeException e) {
 				maxTryTimesPtr.value--;
 				e.printStackTrace();
 				if (e.getCause() instanceof FileNotFoundException) {
-					CommonUtils.trace(getClass(), "åˆ†æ®µ " + myIndex + " æ–‡ä»¶ä¸å­˜åœ¨ï¼Œä¸‹è½½å¤±è´¥ï¼");
-					if (mainTask.getState() == DownloadTaskState.downloading) { //ä½¿å¾—åªä¼šé€šçŸ¥ä¸€æ¬¡
+					CommonUtils.trace(getClass(), "·Ö¶Î " + myIndex + " ÎÄ¼ş²»´æÔÚ£¬ÏÂÔØÊ§°Ü£¡");
+					if (mainTask.getState() == DownloadTaskState.downloading) { //Ê¹µÃÖ»»áÍ¨ÖªÒ»´Î
 						mainTask.stop();
 						mainTask.deleteTempFile();
 					}
 					return false;
 				}
 				if (maxTryTimesPtr.value > 0)
-					CommonUtils.trace(getClass(), "åˆ†æ®µ " + myIndex + " ä¸‹è½½å¤±è´¥ï¼é‡è¯•...");
+					CommonUtils.trace(getClass(), "·Ö¶Î " + myIndex + " ÏÂÔØÊ§°Ü£¡ÖØÊÔ...");
 				else {
-					CommonUtils.trace(getClass(), "åˆ†æ®µ " + myIndex + " ä¸‹è½½å¤±è´¥ï¼");
+					CommonUtils.trace(getClass(), "·Ö¶Î " + myIndex + " ÏÂÔØÊ§°Ü£¡");
 					mainTask.allSubTaskIsFailure();
 				}
 			}
