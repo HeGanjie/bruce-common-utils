@@ -154,7 +154,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static boolean isStringEmptyOrNull(final String mValue) {
-		return mValue == null || "".equals(mValue);
+		return mValue == null || mValue.length() == 0;
 	}
 
 	/**
@@ -163,7 +163,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static boolean isStringNullOrWriteSpace(final String mValue) {
-		return mValue == null || "".equals(mValue.trim());
+		return mValue == null || mValue.trim().length() == 0;
 	}
 
 	/**
