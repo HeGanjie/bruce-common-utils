@@ -17,8 +17,8 @@ public final class LambdaUtils {
 		}
 	}
 	
-	public static <TSource> List<TSource> map(Iterable<TSource> list, Func1<TSource, TSource> func) {
-		List<TSource> listRtn = new ArrayList<TSource>();
+	public static <Rtn, TSource> List<Rtn> map(Iterable<TSource> list, Func1<Rtn, TSource> func) {
+		List<Rtn> listRtn = new ArrayList<Rtn>();
 		for (TSource src : list)
 			listRtn.add(func.call(src));
 		return listRtn;
