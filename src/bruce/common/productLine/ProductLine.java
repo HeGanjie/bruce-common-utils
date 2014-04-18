@@ -12,7 +12,7 @@ import bruce.common.utils.CommonUtils;
  *
  */
 public final class ProductLine<T extends Task> extends WorkUnit<T> {
-	List<WorkUnit<T>> mWorkUnits;
+	final List<WorkUnit<T>> mWorkUnits;
 
 	/**
 	 * 创建生产线

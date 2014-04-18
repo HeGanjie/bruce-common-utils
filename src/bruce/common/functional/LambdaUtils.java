@@ -1,10 +1,11 @@
 package bruce.common.functional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public final class LambdaUtils {
-	
 	public static <TSource> void forEach(Iterable<TSource> iterable, Action1<TSource> act) {
 		for (TSource obj : iterable)
 			act.call(obj);
@@ -16,14 +17,7 @@ public final class LambdaUtils {
 			act.call(tSource, index++);
 		}
 	}
-	
-	public static <Rtn, TSource> List<Rtn> map(Iterable<TSource> list, Func1<Rtn, TSource> func) {
-		List<Rtn> listRtn = new ArrayList<Rtn>();
-		for (TSource src : list)
-			listRtn.add(func.call(src));
-		return listRtn;
-	}
-	
+		
 	public static <Rtn, TSource> Rtn reduce(Iterable<TSource> iterable, Rtn init, Func2<Rtn, Rtn, TSource> func2) {
 		for (TSource tSource : iterable) {
 			init = func2.call(init, tSource);
@@ -38,38 +32,36 @@ public final class LambdaUtils {
 		return null;
 	}
 
-	public static <Rtn, TSource1, TSource2> List<Rtn> zip(final List<TSource1> list1, final List<TSource2> list2, final Func2<Rtn, TSource1, TSource2> zipFunc) {
+	public static <Rtn, TSource1, TSource2> List<Rtn> zip(final Iterable<TSource1> iterable1,
+			final Iterable<TSource2> iterable2, final Func2<Rtn, TSource1, TSource2> zipFunc) {
 		final ArrayList<Rtn> results = new ArrayList<Rtn>();
-		while (list1.size() < list2.size()) list1.add(null);
-		while (list2.size() < list1.size()) list2.add(null);
-		forEachWithIndex(list1, new Action2<TSource1, Integer>() {
-			@Override
-			public void call(TSource1 t1, Integer i) {
-				results.add(zipFunc.call(t1, list2.get(i)));
-			}
-		});
+		Iterator<TSource1> iterator1 = iterable1.iterator();
+		Iterator<TSource2> iterator2 = iterable2.iterator();
+		while (iterator1.hasNext() && iterator2.hasNext()) {
+			results.add(zipFunc.call(iterator1.next(), iterator2.next()));
+		}
 		return results;
 	}
 
 	public static <Rtn, TSource> List<Rtn> select(Iterable<TSource> iterable, final Func1<Rtn, TSource> selector) {
-		final List<Rtn> results = new ArrayList<Rtn>();
-		forEach(iterable, new Action1<TSource>() {
-			@Override
-			public void call(TSource t) {
-				results.add(selector.call(t));
-			}
-		});
-		return results;
+		List<Rtn> listRtn = new ArrayList<Rtn>();
+		for (TSource src : iterable)
+			listRtn.add(selector.call(src));
+		return listRtn;
 	}
 	
+	public static <Rtn, TSource> List<Rtn> selectMany(Iterable<TSource> iterable, final Func1<Collection<Rtn>, TSource> selector) {
+		List<Rtn> listRtn = new ArrayList<Rtn>();
+		for (TSource src : iterable)
+			listRtn.addAll(selector.call(src));
+		return listRtn;
+	}
+
 	public static <TSource> List<TSource> where(Iterable<TSource> iterable, final Func1<Boolean, TSource> predicate) {
 		final List<TSource> results = new ArrayList<TSource>();
-		forEach(iterable, new Action1<TSource>() {
-			@Override
-			public void call(TSource t) {
-				if (predicate.call(t)) results.add(t);
-			}
-		});
+		for (TSource src : iterable) {
+			if (predicate.call(src)) results.add(src);
+		}
 		return results;
 	}
 	
@@ -100,8 +92,7 @@ public final class LambdaUtils {
 		return reduce(iterable, 0, new Func2<Integer, Integer, TSource>() {
 			@Override
 			public Integer call(Integer init, TSource t) {
-				if (predicate == null || predicate.call(t)) return init + 1;
-				return init;
+				return predicate.call(t) ? init + 1 : init;
 			}
 		});
 	}
@@ -165,5 +156,4 @@ public final class LambdaUtils {
 		}
 		return -1;
 	}
-	
 }

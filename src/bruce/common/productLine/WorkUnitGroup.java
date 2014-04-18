@@ -15,8 +15,8 @@ import java.util.Set;
  *
  */
 public final class WorkUnitGroup<T extends Task> extends WorkUnit<T> {
-	List<WorkUnit<T>> mWorkUnits;
-	protected Map<T, Set<WorkUnit<T>>> doneTaskWorkUnitMap = new HashMap<T, Set<WorkUnit<T>>>();
+	final List<WorkUnit<T>> mWorkUnits;
+	final protected Map<T, Set<WorkUnit<T>>> doneTaskWorkUnitMap = new HashMap<T, Set<WorkUnit<T>>>();
 
 	/**
 	 * 不推荐worker的数量小于2，如果只有一个worker的话应该直接实例化Worker

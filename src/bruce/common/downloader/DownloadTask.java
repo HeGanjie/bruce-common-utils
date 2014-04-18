@@ -29,7 +29,7 @@ import bruce.common.utils.FileUtil;
 
 public final class DownloadTask implements Task, Cloneable, Serializable {
 	private Map<String, String> EXTRA_HEADER;
-	
+
 	private static final String HTTP_HEAD_RANGE = "RANGE";
 	private static final long serialVersionUID = 783497780509917101L;
 	public static final String DOWNLOAD_RECORD_FILE_EXT = ".download",
@@ -44,12 +44,12 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			EXTRA_HEADER_USER_AGENT = "User-Agent",
 			EXTRA_HEADER_COOKIE = "Cookie",
 			EXTRA_PARAM_MAX_TRY_COUNT = "MaxTryCount";
-						
+
 	String id, url, saveFileAt;
 	long offset = 0, downLen = 0, finishedLen = 0, lastReportTime = 0;
 	int downloadererCount, byteSpeed = 0;
 	private DownloadTaskState state = DownloadTaskState.stop;
-	
+
 	transient List<DownloadTask> tasks;
 	transient private Action1<Float> _progressCallback;
 	transient private DownloaderAgent _downloaderAgent;
@@ -61,7 +61,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		id = CommonUtils.dateFormat(new Date(), "_", "yyyyMMdd", "HHmmss");
 
 		if (!hasSameDownloadRecord())
-			createDownloadRecord().write(getRecordFilePath()); // åˆ›å»ºä¸‹è½½è®°å½•æ–‡ä»¶
+			createDownloadRecord().write(getRecordFilePath()); // ´´½¨ÏÂÔØ¼ÇÂ¼ÎÄ¼ş
 	}
 
 	protected DownloadTask(String urlStr, String saveFileName) {
@@ -76,18 +76,18 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	public void stop() {
 		if (state != DownloadTaskState.downloading)
 			throw new UnsupportedOperationException();
-		
+
 		state = DownloadTaskState.stop;
-		CommonUtils.trace(getClass(), "ä¸‹è½½è¢«ç»ˆæ­¢!");
+		CommonUtils.trace(getClass(), "ÏÂÔØ±»ÖÕÖ¹!");
 	}
-	
+
 	public void start() {
 		if (state == DownloadTaskState.downloading || state == DownloadTaskState.finished)
 			throw new UnsupportedOperationException();
-		
+
 		state = DownloadTaskState.downloading;
 		_downloaderAgent.doDownload(this);
-		
+
 		lastReportTime = System.currentTimeMillis();
 	}
 
@@ -112,7 +112,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	protected boolean hasSameDownloadRecord() {
-		// æ–­ç‚¹ç»­ä¼ ï¼Œå‡ä½¿æœ‰ä¸€æ–‡ä»¶a.docï¼Œæ£€æŸ¥ä¸´æ—¶æ–‡ä»¶a.doc.downloadï¼šè‹¥å­˜åœ¨å¹¶ä¸”å½“ä¸­è®°å½•çš„ URL/åˆ†æ®µæ•°/æ€»é•¿åº¦ ä¸ä¸€è‡´ï¼Œåˆ™åˆ é™¤æ‰€æœ‰çš„ä¸´æ—¶æ–‡ä»¶
+		// ¶ÏµãĞø´«£¬¼ÙÊ¹ÓĞÒ»ÎÄ¼şa.doc£¬¼ì²éÁÙÊ±ÎÄ¼şa.doc.download£ºÈô´æÔÚ²¢ÇÒµ±ÖĞ¼ÇÂ¼µÄ URL/·Ö¶ÎÊı/×Ü³¤¶È ²»Ò»ÖÂ£¬ÔòÉ¾³ıËùÓĞµÄÁÙÊ±ÎÄ¼ş
 		final File tmpFile = new File(getRecordFilePath());
 		if (tmpFile.exists()) {
 			if (!DownloadRecord.load(tmpFile).equals(createDownloadRecord())) deleteTempFile();
@@ -133,12 +133,12 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	/**
-	 * ä¸‹è½½å‰æ£€æŸ¥æ˜¯å¦èƒ½æ–­ç‚¹ç»­ä¼ ï¼Œæ˜¯åˆ™ä»ä¸Šæ¬¡æ–­å¼€çš„åœ°æ–¹å¼€å§‹ä¸‹è½½
+	 * ÏÂÔØÇ°¼ì²éÊÇ·ñÄÜ¶ÏµãĞø´«£¬ÊÇÔò´ÓÉÏ´Î¶Ï¿ªµÄµØ·½¿ªÊ¼ÏÂÔØ
 	 * @return
 	 */
 	protected long checkResumable() {
 		File writefileAt = new File(saveFileAt);
-		return writefileAt.exists() ? writefileAt.length() : 0; // æ–­ç‚¹ç»­ä¼ 
+		return writefileAt.exists() ? writefileAt.length() : 0; // ¶ÏµãĞø´«
 	}
 
 	protected int getContentLen() throws IOException, MalformedURLException {
@@ -150,7 +150,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		conn.disconnect();
 		return taskLen;
 	}
-	
+
 	public String getId() { return id; }
 
 	@Override
@@ -195,17 +195,17 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			if (end < offset + finishedLen) {
 				state = DownloadTaskState.finished;
 				mainTask.reportProgress();
-				return; //æ­¤éƒ¨åˆ†å·²ä¸‹è½½å®Œæˆ
+				return; //´Ë²¿·ÖÒÑÏÂÔØÍê³É
 			}
 			state = DownloadTaskState.downloading;
 
 			conn = (HttpURLConnection) new URL(url).openConnection();
 			configConnection(conn);
-			conn.setRequestProperty(HTTP_HEAD_RANGE, CommonUtils.buildString("bytes=", offset + finishedLen, "-", end)); //åŒ…å« ä¾‹å¦‚0-500ä¸ªå­—èŠ‚ï¼Œåº”è¯¥æ˜¯0-499 
+			conn.setRequestProperty(HTTP_HEAD_RANGE, CommonUtils.buildString("bytes=", offset + finishedLen, "-", end)); //°üº¬ ÀıÈç0-500¸ö×Ö½Ú£¬Ó¦¸ÃÊÇ0-499 
 			conn.connect();
 			inputStreamPtr.value = conn.getInputStream();
 
-			FileUtil.open(saveFileAt, "rw", new EAction1<RandomAccessFile>() {
+			FileUtil.withOpen(saveFileAt, "rw", new EAction1<RandomAccessFile>() {
 				@Override
 				public void call(RandomAccessFile writingFile) throws Throwable {
 					if (finishedLen != 0) writingFile.seek(finishedLen);
@@ -241,10 +241,10 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	protected void reportProgress() {
 		if (_progressCallback != null)
 			_progressCallback.call(getProgress());
-		
+
 		long originFinishedLen = finishedLen;
 		finishedLen = statisticsFinishedLen();
-		
+
 		long current = System.currentTimeMillis();
 		// elapse / 1000 == downLen / byteSpeed
 		byteSpeed = Math.round((float)(finishedLen - originFinishedLen) * 1000 / (current - lastReportTime));
@@ -257,11 +257,11 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		@Override
 		public Long call(Long t, DownloadTask subTask) { return t + subTask.finishedLen; }
 	};
-		
+
 	protected long statisticsFinishedLen() { return LambdaUtils.reduce(tasks, 0l, funcInStatistics); }
 
 	/**
-	 * åˆ é™¤.downloadä»¥åŠå…¶ä»–ä¸´æ—¶æ–‡ä»¶
+	 * É¾³ı.downloadÒÔ¼°ÆäËûÁÙÊ±ÎÄ¼ş
 	 */
 	public void deleteTempFile() {
 		final File tmpFile = new File(getRecordFilePath());
@@ -277,7 +277,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		for (Entry<String, String> entry : entrySet) {
 			conn.setRequestProperty(entry.getKey(), entry.getValue());
 		}
-		
+
 		if (EXTRA_HEADER != null) {
 			entrySet = EXTRA_HEADER.entrySet();
 			for (Entry<String, String> entry : entrySet) {
@@ -285,11 +285,11 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			}
 		}
 	}
-	
+
 	public boolean writeDownloadTaskToPath(String absDirPath) {
 		return FileUtil.writeObj(this, absDirPath + id + ".task");
 	}
-	
+
 	public static DownloadTask loadDownloadTaskFormFile(String absPath) {
 		DownloadTask readObj = FileUtil.readObj(absPath);
 		try {
@@ -300,7 +300,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		catch (CloneNotSupportedException e) { e.printStackTrace(); }
 		return null;
 	}
-	
+
 	public DownloadTaskState getState() { return state; }
 
 	private int getDownloadSpeed() { return byteSpeed; }
@@ -334,7 +334,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	public String getSaveFileAt() {
 		return saveFileAt;
 	}
-	
+
 	public void setAgent(DownloaderAgent downloaderAgent) {
 		if (downloaderAgent.downloaderCount != downloadererCount)
 			throw new UnsupportedOperationException();
@@ -355,7 +355,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	public static DownloadTask create(String url, String savePath, int downloaderCount) throws IOException, CloneNotSupportedException {
-		//ä»è®°å½•æ–‡ä»¶ä¸­è¯»å–urlï¼Œå¦‚æœurlä¸ºnullçš„è¯
+		//´Ó¼ÇÂ¼ÎÄ¼şÖĞ¶ÁÈ¡url£¬Èç¹ûurlÎªnullµÄ»°
 		if (CommonUtils.isStringNullOrWriteSpace(url) &&
 				!CommonUtils.isStringNullOrWriteSpace(FileUtil.getBaseNameByPath(savePath))) {
 			url = DownloadRecord.load(new File(DownloadTask.getRecordFilePath(savePath))).url;
@@ -369,8 +369,8 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		return new DownloadTask(url, downloadAt, downloaderCount);
 	}
 	/**
-	 * å–å¾—ä¿å­˜è·¯å¾„ï¼Œå¹¶åˆ›å»ºæ–‡ä»¶å¤¹<br/>
-	 * å¦‚æœsavePathåªæä¾›äº†ä¿å­˜è‡³å“ªä¸ªæ–‡ä»¶å¤¹ï¼Œåˆ™ä»¥urlä¸­çš„æ–‡ä»¶åå‘½åï¼Œå¦åˆ™ä¿å­˜è‡³savePath
+	 * È¡µÃ±£´æÂ·¾¶£¬²¢´´½¨ÎÄ¼ş¼Ğ<br/>
+	 * Èç¹ûsavePathÖ»Ìá¹©ÁË±£´æÖÁÄÄ¸öÎÄ¼ş¼Ğ£¬ÔòÒÔurlÖĞµÄÎÄ¼şÃûÃüÃû£¬·ñÔò±£´æÖÁsavePath
 	 * @param url
 	 * @param savePath
 	 * @return
@@ -387,4 +387,3 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			return savePath;
 	}
 }
-

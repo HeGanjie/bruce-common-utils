@@ -21,7 +21,7 @@ public final class DownloadRecord implements Serializable {
 	}
 
 	protected void write(String savePath) {
-		FileUtil.open(savePath, "rw", new EAction1<RandomAccessFile>() {
+		FileUtil.withOpen(savePath, "rw", new EAction1<RandomAccessFile>() {
 			@Override
 			public void call(RandomAccessFile recordFile) throws Throwable {
 				String lineBreakStr = System.getProperty("line.separator");
@@ -34,7 +34,7 @@ public final class DownloadRecord implements Serializable {
 
 	protected static DownloadRecord load(File tmpFile) {
 		final Pointer<DownloadRecord> ptr = new Pointer<DownloadRecord>();
-		FileUtil.open(tmpFile.getAbsolutePath(), "r", new EAction1<RandomAccessFile>() {
+		FileUtil.withOpen(tmpFile.getAbsolutePath(), "r", new EAction1<RandomAccessFile>() {
 			@Override
 			public void call(RandomAccessFile readingTmpFile) throws Throwable {
 				String urlInFile = readingTmpFile.readLine().trim();

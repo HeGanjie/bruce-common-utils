@@ -3,6 +3,7 @@ package bruce.common.utils;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -12,11 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map.Entry;
+import java.util.Set;
 
 
 /**
@@ -29,11 +31,10 @@ public final class CommonUtils {
 //	public static final boolean DEBUGGING = true;
 	public static final boolean DEBUGGING = false;
 
-	private static List<String> debuggingActivityList = new ArrayList<String>();
+	private static Set<String> debuggingActivityList = new HashSet<String>();
 
 	static {
-		String[] debuggingActivities = DEBUGGING_ACTIVITY_SIMPLE_NAME.split(",");
-		for (String simpleName : debuggingActivities) {
+		for (String simpleName : DEBUGGING_ACTIVITY_SIMPLE_NAME.split(",")) {
 			debuggingActivityList.add(simpleName);
 		}
 	}
@@ -60,9 +61,17 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static List<String> parseList(String listStr) {
-		if (isStringNullOrWriteSpace(listStr)) return null;
+		if (isStringNullOrWriteSpace(listStr) || listStr.length() < 2) return null;
 		listStr = listStr.substring(1, listStr.length() - 1);
+		if (isStringNullOrWriteSpace(listStr)) return new ArrayList<String>();
+		
 		return Arrays.asList(listStr.split(", "));
+	}
+
+	public static Set<String> parseSet(String setStr) {
+		List<String> parseList = parseList(setStr);
+		if (parseList == null) return null;
+		return new HashSet<String>(parseList);
 	}
 
 	/**
@@ -72,9 +81,8 @@ public final class CommonUtils {
 	 */
 	public static String buildString(final Object ... args) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < args.length; i++) {
+		for (int i = 0; i < args.length; i++)
 			sb.append(args[i]);
-		}
 		return sb.toString();
 	}
 
@@ -111,41 +119,8 @@ public final class CommonUtils {
 				break;
 			}
 		}
-		if ("".equals(paramsName)) {
-			return null;
-		}
+		if ("".equals(paramsName)) return null;
 		return paramsName.split(seperator);
-	}
-
-	/**
-	 * 在xml文件中根据节点名取得所有节点的XML描述（为了更高的效率，不考虑单身的xml元素(以‘/>’结尾)），考虑的话可以使用XMLUtil
-	 * @param sourceXML
-	 * @param tagName
-	 * @return
-	 */
-	@Deprecated
-	public static List<String> getXMLElementListByTagName(final String sourceXML, final String tagName) {
-		ArrayList<String> elements = new ArrayList<String>();
-		String xmlTagName = String.format("<%s ", tagName);
-
-		int elementIndex = sourceXML.indexOf(xmlTagName);
-		while (elementIndex >= 0) {
-			String xmlElement = getXMLTagWrapInXML(sourceXML, elementIndex, tagName, false);
-			elements.add(xmlElement);
-			elementIndex = sourceXML.indexOf(xmlTagName, elementIndex + xmlElement.length());
-		}
-		return elements;
-	}
-
-	/**
-	 * 在xml文件中根据节点名取得整个节点的XML描述（为了更高的效率，不考虑单身的xml元素(以‘/>’结尾)），考虑的话可以使用XMLUtil
-	 * @param sourceXML
-	 * @param tagName
-	 * @return
-	 */
-	@Deprecated
-	public static String getXMLTagWrapInXML(final String sourceXML, final String tagName) {
-		return getXMLTagWrapInXML(sourceXML, 0, tagName, true);
 	}
 
 	/**
@@ -153,8 +128,8 @@ public final class CommonUtils {
 	 * @param mValue
 	 * @return
 	 */
-	public static boolean isStringEmptyOrNull(final String mValue) {
-		return mValue == null || mValue.length() == 0;
+	public static boolean isStringNullOrEmpty(final String mValue) {
+		return mValue == null || mValue.isEmpty();
 	}
 
 	/**
@@ -163,7 +138,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static boolean isStringNullOrWriteSpace(final String mValue) {
-		return mValue == null || mValue.trim().length() == 0;
+		return mValue == null || mValue.trim().isEmpty();
 	}
 
 	/**
@@ -172,13 +147,24 @@ public final class CommonUtils {
 	 * @param regex	正则表达式
 	 * @return
 	 */
-	public static boolean stringMatchRegex(final String preMatch, final String regex) {
+	public static boolean matchRegex(final String preMatch, final String regex) {
 		if (isStringNullOrWriteSpace(regex)) return false;
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(preMatch);
-		return m.matches();
+		return preMatch.matches(regex);
 	}
 
+	/**
+	 * 调试输出，如果 {@link #DEBUGGING} 为false则不输出
+	 * @param msg
+	 */
+	public static void traceSpec(Class<?> cls, final String msg) {
+		if (DEBUGGING && debuggingActivityList.contains(cls.getSimpleName()))
+			System.out.println(msg);
+	}
+	
+	public static void trace(Class<?> class1, String msg) {
+		System.out.println(buildString(class1.getSimpleName(), " | ", msg));
+	}
+	
 	/**
 	 * 调试输出，如果 {@link #DEBUGGING} 为false则不输出
 	 * @param msg
@@ -194,61 +180,13 @@ public final class CommonUtils {
 	}
 	
 	/**
-	 * 根据XML标签名取得标签内容(有BUG)
-	 * @param sourceXML
-	 * @param startPosition
-	 * @param tagName
-	 * @return
-	 */
-	@SuppressWarnings("unused")
-	@Deprecated
-	private static String getXMLTagWrapInXML(final String sourceXML, final int startPosition, final String tagName) {
-		int begin = sourceXML.indexOf(String.format("<%s ", tagName), startPosition);
-		int end = -1;
-		String endingStr = "/";
-
-
-		end = sourceXML.indexOf(endingStr, startPosition) + endingStr.length();
-		return sourceXML.substring(begin, end);
-	}
-
-	/**
-	 * 根据XML标签名取得标签内容(有BUG)
-	 * @param sourceXML
-	 * @param startPosition
-	 * @param tagName
-	 * @param onlyOneElement	是否只有一个元素
-	 * @return
-	 */
-	@Deprecated
-	private static String getXMLTagWrapInXML(final String sourceXML, final int startPosition,
-			final String tagName, final boolean onlyOneElement) {
-		int begin = sourceXML.indexOf(String.format("<%s ", tagName), startPosition);
-		if (begin == -1) {
-			begin = sourceXML.indexOf(String.format("<%s", tagName), startPosition);
-		}
-		int end = -1;
-		String endingStr = String.format("/%s>", tagName);
-		if (onlyOneElement) {
-			end = sourceXML.lastIndexOf(endingStr) + endingStr.length();
-		} else {
-			end = sourceXML.indexOf(endingStr, startPosition) + endingStr.length();
-		}
-
-		String result = sourceXML.substring(begin, end);
-		assert(result.charAt(result.length() - 1) == '>'); //（为了更高的效率，暂不考虑单身的xml元素(以‘/>’结尾)）
-		return result;
-	}
-
-	/**
 	 * 从异常中提取所有的错误信息
 	 * @param t
 	 * @return
 	 */
 	public static String extractErrorMessage(final Throwable t) {
-		if (t != null) {
+		if (t != null)
 			return String.format("%s\n\n%s", t.toString(), extractErrorMessage(t.getCause()));
-		}
 		return "";
 	}
 
@@ -272,8 +210,8 @@ public final class CommonUtils {
 	 */
 	public static String dateFormat(final Date d, final String seperator,
 			final String dateFormatStr, final String timeFormatStr) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat (dateFormatStr);
-		SimpleDateFormat timeFormat = new SimpleDateFormat (timeFormatStr);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
+		SimpleDateFormat timeFormat = new SimpleDateFormat(timeFormatStr);
 		return String.format("%s%s%s", dateFormat.format(d), seperator, timeFormat.format(d));
 	}
 
@@ -297,22 +235,17 @@ public final class CommonUtils {
 	 * @return
 	 * @throws ParseException
 	 */
-	@SuppressWarnings("deprecation")
 	public static Date parseDate(final String dateStr, final String seperatorRegex,
 			final String dateFormatStr, final String timeFormatStr) throws ParseException {
-		
 		String[] splitd = dateStr.split(seperatorRegex);
 		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
 		Date parse1 = dateFormat.parse(splitd[0]);
+		
+		if (splitd.length == 1) return parse1;
 		//时间分有毫秒和无毫秒处理
 		String timeStr = splitd[1];
-		SimpleDateFormat timeFormat = null;
 		Date parse2 = null;
-		if (timeStr.indexOf('.') >= 0 ^ timeFormatStr.indexOf('.') >= 0){
-			timeFormat = new SimpleDateFormat("HH:mm:ss"); //必定会出错，使用默认的时间格式
-		} else {
-			timeFormat = new SimpleDateFormat(timeFormatStr);
-		}
+		SimpleDateFormat timeFormat = new SimpleDateFormat(timeFormatStr);
 		parse2 = timeFormat.parse(timeStr);
 		parse2.setYear(parse1.getYear());
 		parse2.setMonth(parse1.getMonth());
@@ -321,7 +254,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * 使用默认的格式解析日期字符串
+	 * 自动解析日期字符串
 	 * @see CommonUtils#parseDate(String, String, String, String)
 	 * @param dateStr
 	 * @param seperatorRegex
@@ -329,10 +262,13 @@ public final class CommonUtils {
 	 */
 	public static Date parseDate(final String dateStr, final String seperatorRegex) {
 		try {
-			return parseDate(dateStr, seperatorRegex, "yyyy-MM-dd", "HH:mm:ss.SSS");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+			if (0 < dateStr.indexOf('.'))
+				return parseDate(dateStr, seperatorRegex, "yyyy-MM-dd", "HH:mm:ss.SSS");
+			else if (dateStr.length() == "yyyy-MM-dd HH:mm".length())
+				return parseDate(dateStr, seperatorRegex, "yyyy-MM-dd", "HH:mm");
+			else
+				return parseDate(dateStr, seperatorRegex, "yyyy-MM-dd", "HH:mm:ss");
+		} catch (ParseException e) { e.printStackTrace(); }
 		return null;
 	}
 
@@ -391,16 +327,22 @@ public final class CommonUtils {
 		return 0 <= index && index < l.size();
 	}
 	
+	public static Map<String, String> parseHashMap(String mapToStringResult) {
+		return parseHashMap(mapToStringResult, ", ");
+	}
+	
 	/**
 	 * 解析HashMap.toString()后的结果，还原HashMap实例， Map的key和value不能含有", "(逗号+空格)
 	 * @param mapDescriptionStr
 	 * @return
 	 */
-	public static Map<String, String> parseHashMap(String mapDescriptionStr) {
-		if (mapDescriptionStr == null) return null;
+	public static Map<String, String> parseHashMap(String mapDescriptionStr, String seprator) {
+		if (isStringNullOrWriteSpace(mapDescriptionStr) || mapDescriptionStr.length() < 2) return null;
 
 		mapDescriptionStr = mapDescriptionStr.substring(1, mapDescriptionStr.length() - 1);
-		String[] kvs = mapDescriptionStr.split(", ");
+		if (isStringNullOrWriteSpace(mapDescriptionStr)) return new LinkedHashMap<String, String>();
+		
+		String[] kvs = mapDescriptionStr.split(seprator);
 		Map<String, String> map = null;
 		for (String kv : kvs) {
 			if (map == null) map = new LinkedHashMap<String, String>();
@@ -423,7 +365,7 @@ public final class CommonUtils {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             return displayBytes(md5.digest(str.getBytes()));
         } catch(Exception e) {
-            e.printStackTrace();
+            throwRuntimeExceptionAndPrint(e);
         }
         return "";
     }
@@ -437,7 +379,7 @@ public final class CommonUtils {
 	 */
 	public static String limitStringCharCount(final String src, final int keepLength, final String endingString) {
 		if (src != null && src.length() > keepLength) {
-			return CommonUtils.buildString(src.substring(0, keepLength), endingString);
+			return src.substring(0, keepLength) + endingString;
 		} else {
 			return src;
 		}
@@ -526,7 +468,7 @@ public final class CommonUtils {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			throwRuntimeExceptionAndPrint(e);
 		}
 	}
 
@@ -542,18 +484,17 @@ public final class CommonUtils {
 		}
 	}
 
-	public static List<Integer> range(int low, int high) { // 0..10, 10..0
+	public static List<Integer> range(int low, int high) { // range(0, 5) => 0, 1, 2, 3, 4
 		int step = (int) Math.signum(high - low);
-		List<Integer> list = new ArrayList<Integer>(Math.abs(high - low) + 1);
+		List<Integer> list = new ArrayList<Integer>(Math.abs(high - low));
 		for (int i = low; i != high; i += step) {
 			list.add(i);
 		}
-		list.add(high);
 		return list;
 	}
 	
 	private static String just(String src, int length, String fill, boolean ljust) throws IOException {
-		if (isStringEmptyOrNull(fill) || length <= src.length()) {
+		if (isStringNullOrEmpty(fill) || length <= src.length()) {
 			return src;
 		} else {
 			StringReader sr = new StringReader(fill);
@@ -575,18 +516,14 @@ public final class CommonUtils {
 	public static String ljust(String src, int length, String fill) {
 		try {
 			return just(src, length, fill, true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) { e.printStackTrace(); }
 		return null;
 	}
 	
 	public static String rjust(String src, int length, String fill) {
 		try {
 			return just(src, length, fill, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) { e.printStackTrace(); }
 		return null;
 	}
 	
@@ -600,18 +537,43 @@ public final class CommonUtils {
 		return new BigDecimal(src).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
-	public static void trace(Class<?> class1, String msg) {
-		System.out.println(buildString(class1.getSimpleName(), " | ", msg));
-	}
-
-	public static String emptyIfNull(String str) {
-		if (isStringEmptyOrNull(str)) return "";
-		return str;
+	public static String emptyIfNull(String strValue) {
+		return strValue == null ? "" : strValue;
 	}
 	
-	public static void throwRuntimeException(Throwable e) {
-		e.printStackTrace();
+	public static void throwRuntimeExceptionAndPrint(Throwable e) {
+		if (DEBUGGING) e.printStackTrace();
 		throw new RuntimeException(e);
 	}
+
+	public static String hashMapToString(Map<?, ?> dataUploadStatusMap, String seperator) {
+		List<Entry<?, ?>> list = new ArrayList<Entry<?, ?>>(dataUploadStatusMap.entrySet());
+		return buildString('{', displayArray(list.toArray(), seperator), '}');
+	}
 	
+	public static String getDateStrFromLongTime(final String time){
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	return sdf.format(Long.valueOf(time));
+    }
+	
+	public static Date addDays(Date origin, double deltaDay) {
+		return new Date(Math.round((origin.getTime() + deltaDay * 86400000)));
+	}
+
+	public static double getDaySpan(Date d1, Date d2) {
+		return (double)(d1.getTime() - d2.getTime()) / 86400000;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T getPrivateField(Object obj, String fieldName) {
+		Field f;
+		try {
+			f = obj.getClass().getDeclaredField(fieldName);
+			f.setAccessible(true);
+			return (T) f.get(obj);
+		} catch (Exception e) {
+			if (DEBUGGING) e.printStackTrace();
+		}
+		return null;
+	}
 }

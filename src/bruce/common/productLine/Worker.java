@@ -9,15 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  */
 public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runnable {
-	protected Queue<T> mTasks = new LinkedBlockingQueue<T>();
-	private Thread workerThread;
-
-	/**
-	 * 创建新的工人
-	 */
-	public Worker() {
-		workerThread = createNewThread();
-	}
+	final protected Queue<T> mTasks = new LinkedBlockingQueue<T>();
+	private Thread workerThread = createNewThread();
 
 	private Thread createNewThread() {
 		return new Thread(this, getName());
@@ -43,11 +36,10 @@ public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runn
 	@Override
 	public void run() {
 		while (!mTasks.isEmpty()) {
-			T t =  mTasks.element();
+			T t =  mTasks.remove();
 			if (handleTask(t)) {
 				workUnitDoneTask(this, t);
 			}
-			mTasks.remove();
 		}
 		synchronized (this) {
 			workerThread = createNewThread();
@@ -65,4 +57,18 @@ public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runn
 	 */
 	protected abstract boolean handleTask(T t);
 
+	/**
+	 * 
+	 * @param task
+	 * @return		任务本来已经在队列中
+	 */
+	public boolean requeueTask(T task) {
+		boolean contains = false;
+		synchronized (mTasks) { //避免在此期间任务被执行
+			contains = mTasks.contains(task);
+			if (contains) mTasks.remove(task);
+		}
+		appendTask(task);
+		return contains;
+	}
 }

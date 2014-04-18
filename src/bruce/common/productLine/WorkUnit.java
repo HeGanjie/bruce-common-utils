@@ -11,11 +11,9 @@ import bruce.common.utils.CommonUtils;
  *
  */
 public abstract class WorkUnit<T extends Task> {
-	private static Map<String, String> mBlackBoardMap = new HashMap<String, String>();
+	final private static Map<String, String> mBlackBoardMap = new HashMap<String, String>();
 	protected WorkUnit<T> mBelongsToWorkUnit;
 	int indexInParent;
-
-	public WorkUnit() { }
 
 	/**
 	 * 取得施工单位的名称和ID
@@ -85,5 +83,12 @@ public abstract class WorkUnit<T extends Task> {
 
 	public boolean belongsToAWorkUnit() {
 		return mBelongsToWorkUnit != null;
+	}
+	
+	protected void redo(T task) {
+		if (mBelongsToWorkUnit != null)
+			mBelongsToWorkUnit.redo(task);
+		else
+			appendTask(task);
 	}
 }
