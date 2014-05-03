@@ -1,9 +1,12 @@
 package bruce.common.functional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public final class LambdaUtils {
 	public static <TSource> void forEach(Iterable<TSource> iterable, Action1<TSource> act) {
@@ -25,6 +28,28 @@ public final class LambdaUtils {
 		return init;
 	}
 	
+	public static <Rtn, TSource> Map<Rtn, TSource> toMap(Iterable<TSource> iterable, Func1<Rtn, TSource> selector) {
+		Map<Rtn,TSource> map = new HashMap<Rtn, TSource>();
+		for (TSource tSource : iterable) {
+			map.put(selector.call(tSource), tSource);
+		}
+		return map;
+	}
+	
+	public static <Rtn, TSource> Map<Rtn, List<TSource>> groupBy(Iterable<TSource> iterable, Func1<Rtn, TSource> selector) {
+		Map<Rtn, List<TSource>> map = new HashMap<Rtn, List<TSource>>();
+		for (TSource tSource : iterable) {
+			Rtn key = selector.call(tSource);
+			List<TSource> list = map.get(key);
+			if (list == null) {
+				map.put(key, new ArrayList<>(Arrays.asList(tSource)));
+			} else {
+				list.add(tSource);
+			}
+		}
+		return map;
+	}
+
 	public static <TSource> TSource firstOrNull(Iterable<TSource> iterable, Func1<Boolean, TSource> predicate) {
 		for (TSource tSource : iterable) {
 			if (predicate.call(tSource)) return tSource;

@@ -576,4 +576,14 @@ public final class CommonUtils {
 		}
 		return null;
 	}
+	
+	public static <E> List<List<E>> partitionAll(int n, List<E> ls) {
+		List<List<E>> resultList = new ArrayList<List<E>>();
+		int lsLen = ls.size();
+		for (int i = 0, end; i < lsLen; i += n) {
+			end = i + n;
+			resultList.add(ls.subList(i, end <= lsLen ? end : lsLen));
+		}
+		return resultList;
+	}
 }
