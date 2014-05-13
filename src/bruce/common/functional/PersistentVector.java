@@ -6,17 +6,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
-
-import bruce.common.utils.CommonUtils;
 
 //TODO : make more efficient
 public class PersistentVector<E> implements Iterable<E>, PersistentCollection<E> {
 	private static final long serialVersionUID = 7068696961107511500L;
-	private static final char VECTOR_START = '[', VECTOR_END = ']';
 	private final List<E> ls;
 	
 	public PersistentVector() {
@@ -179,8 +172,5 @@ public class PersistentVector<E> implements Iterable<E>, PersistentCollection<E>
 	}
 
 	@Override
-	public String toString() {
-		return CommonUtils.buildString(VECTOR_START, CommonUtils.displayArray(toArray(), " "), VECTOR_END);
-	}
-
+	public String toString() { return ls.toString(); }
 }

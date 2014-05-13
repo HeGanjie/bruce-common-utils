@@ -4,11 +4,12 @@ package bruce.common.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,10 +42,6 @@ public final class FileUtil {
 	private static final int BUFFER_SIZE = 1024 * 8;
 	private static Pattern pathPattern = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
 
-	public static String getExternalStorageDirPath(Object... dirNames) {
-		return CommonUtils.buildString(File.separator, CommonUtils.displayArray(dirNames, File.separator), File.separator);
-	}
-	
 	/**
 	 * 使用默认的编码读取项目文本资源文件
 	 * @param resPath	资源文件路径
@@ -70,8 +67,22 @@ public final class FileUtil {
 	}
 	
 	public static boolean writeTextFile(File filePath, String fileContent) {
-		// TODO ..
-		throw new UnsupportedOperationException();
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(filePath));
+			writer.write(fileContent);
+			return true;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public static boolean writeObj(Serializable src, String absPath) {
@@ -153,10 +164,8 @@ public final class FileUtil {
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
 			return readTextFromReader(br);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (br != null) {
 				try {
@@ -166,7 +175,6 @@ public final class FileUtil {
 				}
 			}
 		}
-		return "";
     }
 
 	/**
@@ -272,8 +280,6 @@ public final class FileUtil {
 		}
 		return null;
 	}
-
-	
 
 	public static List<File> recurListFiles(File root, final String ...suffixs) {
         File[] dirs = root.listFiles(new FileFilter() {
