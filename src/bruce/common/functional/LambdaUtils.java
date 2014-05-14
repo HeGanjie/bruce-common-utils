@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import bruce.common.utils.CommonUtils;
+
 public final class LambdaUtils {
 	public static <TSource> void forEach(Iterable<TSource> iterable, Action1<TSource> act) {
 		for (TSource obj : iterable)
@@ -180,5 +182,12 @@ public final class LambdaUtils {
 			i++;
 		}
 		return -1;
+	}
+	
+	public static <T> List<T> repeat(int count, final T item) {
+		return LambdaUtils.select(CommonUtils.range(0, count), new Func1<T, Integer>() {
+			@Override
+			public T call(Integer arg0) { return item; }
+		});
 	}
 }
