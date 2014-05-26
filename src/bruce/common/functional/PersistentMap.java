@@ -32,6 +32,10 @@ public class PersistentMap<K, V> implements Serializable, Iterable<Entry<K, V>> 
 		}
 	}
 	
+	public Map<K, V> getModifiableMap() {
+		return new HashMap<>(map);
+	}
+	
 	public boolean containsKey(K key) {
 		return map.containsKey(key);
 	}

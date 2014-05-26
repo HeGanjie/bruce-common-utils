@@ -3,6 +3,7 @@ package bruce.common.functional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -22,7 +23,7 @@ public class PersistentVector<E> implements Iterable<E>, PersistentCollection<E>
 	}
 
 	public PersistentVector(List<E> initls) {
-		ls = initls;
+		ls = Collections.unmodifiableList(initls);
 	}
 
 	public PersistentVector(Collection<E> values) {
@@ -150,6 +151,10 @@ public class PersistentVector<E> implements Iterable<E>, PersistentCollection<E>
 	@Override
 	public List<E> getCollection() {
 		return ls;
+	}
+	
+	public List<E> getModifiableCollection() {
+		return new ArrayList<>(ls);
 	}
 
 	@Override

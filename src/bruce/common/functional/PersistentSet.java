@@ -2,6 +2,7 @@ package bruce.common.functional;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -10,9 +11,9 @@ import java.util.Set;
 public class PersistentSet<E> implements Iterable<E>, PersistentCollection<E> {
 	private static final long serialVersionUID = 7284417629409750270L;
 	private final Set<E> set;
-	
+		
 	public PersistentSet() {
-		set = new HashSet<>();
+		set = Collections.unmodifiableSet(new HashSet<E>());
 	}
 	
 	@SafeVarargs
@@ -23,11 +24,11 @@ public class PersistentSet<E> implements Iterable<E>, PersistentCollection<E> {
 	public PersistentSet(Collection<E> initColl) {
 		this(new HashSet<>(initColl));
 	}
-	
-	public PersistentSet(Set<E> initSet) {
-		set = initSet;
-	}
 
+	public PersistentSet(Set<E> initSet) {
+		set = Collections.unmodifiableSet(initSet);
+	}
+	
 	@Override
 	public PersistentSet<E> conj(E e) {
 		Set<E> newSet = new HashSet<>(set);
@@ -103,6 +104,10 @@ public class PersistentSet<E> implements Iterable<E>, PersistentCollection<E> {
 		return set;
 	}
 
+	public Set<E> getModifiableCollection() {
+		return new HashSet<>(set);
+	}
+	
 	@Override
 	public int hashCode() {
 		return 31 + ((set == null) ? 0 : set.hashCode());
