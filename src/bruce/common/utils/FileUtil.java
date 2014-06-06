@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.charset.Charset;
@@ -302,6 +303,17 @@ public final class FileUtil {
         });
         selectMany.addAll(Arrays.asList(files));
         return selectMany;
+	}
+	
+	public static long copy(InputStream input, OutputStream output) throws IOException {
+	    byte[] buffer = new byte[BUFFER_SIZE];
+	    long count = 0;
+	    int n;
+	    while ((n = input.read(buffer)) != -1) {
+	        output.write(buffer, 0, n);
+	        count += n;
+	    }
+	    return count;
 	}
 	
 	public static String zip(String[] files, String zipFile) throws IOException {
