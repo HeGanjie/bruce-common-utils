@@ -69,8 +69,12 @@ public final class FileUtil {
 	
 	public static boolean writeTextFile(File filePath, String fileContent) {
 		BufferedWriter writer = null;
+		File outFile = new File(filePath.getAbsolutePath() + ".tmp");
 		try {
-			writer = new BufferedWriter(new FileWriter(filePath));
+			if (outFile.exists() && !outFile.delete()) {
+				throw new IllegalStateException("File already writing");
+			}
+			writer = new BufferedWriter(new FileWriter(outFile));
 			writer.write(fileContent);
 			return true;
 		} catch (Exception e) {
@@ -81,6 +85,8 @@ public final class FileUtil {
 					writer.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+				} finally {
+					if (!outFile.renameTo(filePath)) outFile.delete();
 				}
 			}
 		}
