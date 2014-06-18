@@ -4,12 +4,11 @@ package bruce.common.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,21 +67,25 @@ public final class FileUtil {
 	}
 	
 	public static boolean writeTextFile(File filePath, String fileContent) {
-		BufferedWriter writer = null;
+		return writeFile(filePath, new ByteArrayInputStream(fileContent.getBytes()));
+	}
+	
+	public static boolean writeFile(File filePath, InputStream is) {
+		FileOutputStream os = null;
 		File outFile = new File(filePath.getAbsolutePath() + ".tmp");
 		try {
 			if (outFile.exists() && !outFile.delete()) {
 				throw new IllegalStateException("File already writing");
 			}
-			writer = new BufferedWriter(new FileWriter(outFile));
-			writer.write(fileContent);
+			os = new FileOutputStream(outFile);
+			copy(is, os);
 			return true;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
-			if (writer != null) {
+			if (os != null) {
 				try {
-					writer.close();
+					os.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
