@@ -6,7 +6,7 @@ import java.util.Map;
 import bruce.common.utils.CommonUtils;
 
 /**
- * Ê©¹¤µ¥Î»£¬¿ÉÒÔÊÇÉú²úÏß¡¢Ê©¹¤µ¥Î»×é»ò¹¤ÈË
+ * æ–½å·¥å•ä½ï¼Œå¯ä»¥æ˜¯ç”Ÿäº§çº¿ã€æ–½å·¥å•ä½ç»„æˆ–å·¥äºº
  * @author Bruce
  *
  */
@@ -16,7 +16,7 @@ public abstract class WorkUnit<T extends Task> {
 	int indexInParent;
 
 	/**
-	 * È¡µÃÊ©¹¤µ¥Î»µÄÃû³ÆºÍID
+	 * å–å¾—æ–½å·¥å•ä½çš„åç§°å’ŒID
 	 * @return
 	 */
 	protected String getName() {
@@ -24,7 +24,7 @@ public abstract class WorkUnit<T extends Task> {
 	}
 
 	/**
-	 * È¡µÃID£¬±ÈÈç¹¤ÈËµÄIDÊÇ010£¬Ôò±íÊ¾£º¹¤ÈËÕı´¦ÓÚ¸ùÉú²úÏßµÄÊ×¸öÊ©¹¤µ¥Î»ÀïÃæµÄµÚ¶ş¸ö×ÓÊ©¹¤µ¥Î»µÄµÚÒ»¸ö¹¤ÈË
+	 * å–å¾—IDï¼Œæ¯”å¦‚å·¥äººçš„IDæ˜¯010ï¼Œåˆ™è¡¨ç¤ºï¼šå·¥äººæ­£å¤„äºæ ¹ç”Ÿäº§çº¿çš„é¦–ä¸ªæ–½å·¥å•ä½é‡Œé¢çš„ç¬¬äºŒä¸ªå­æ–½å·¥å•ä½çš„ç¬¬ä¸€ä¸ªå·¥äºº
 	 * @return
 	 */
 	protected String getId() {
@@ -35,7 +35,7 @@ public abstract class WorkUnit<T extends Task> {
 	}
 
 	/**
-	 * ¶ÁÈ¡ºÚ°å£¬ºÚ°åÊÇÓÃkey-value´æ´¢Êı¾İµÄ¹²Ïí¿Õ¼ä
+	 * è¯»å–é»‘æ¿ï¼Œé»‘æ¿æ˜¯ç”¨key-valueå­˜å‚¨æ•°æ®çš„å…±äº«ç©ºé—´
 	 * @param clue
 	 * @return
 	 */
@@ -44,7 +44,7 @@ public abstract class WorkUnit<T extends Task> {
 	}
 
 	/**
-	 * Ğ´ÈëºÚ°å£¬ {@link #readBlackBoard(String)}
+	 * å†™å…¥é»‘æ¿ï¼Œ {@link #readBlackBoard(String)}
 	 * @param name
 	 * @param data
 	 */
@@ -53,9 +53,9 @@ public abstract class WorkUnit<T extends Task> {
 	}
 
 	/**
-	 * ÉèÖÃÕâ¸öÊ©¹¤µ¥Î»µÄÉÏ¼¶µ¥Î»
-	 * @param w ÉÏ¼¶Ê©¹¤µ¥Î»
-	 * @param index ´ËÊ©¹¤µ¥Î»´¦ÓÚÉÏ¼¶ÈİÆ÷ÖĞµÄÎ»ÖÃ
+	 * è®¾ç½®è¿™ä¸ªæ–½å·¥å•ä½çš„ä¸Šçº§å•ä½
+	 * @param w ä¸Šçº§æ–½å·¥å•ä½
+	 * @param index æ­¤æ–½å·¥å•ä½å¤„äºä¸Šçº§å®¹å™¨ä¸­çš„ä½ç½®
 	 */
 	protected void setBelongsTo(final WorkUnit<T> w, final int index) {
 		mBelongsToWorkUnit = w;
@@ -63,15 +63,15 @@ public abstract class WorkUnit<T extends Task> {
 	}
 
 	/**
-	 * Ìí¼ÓÈÎÎñ
-	 * @param t	ĞèÒªÌí¼ÓµÄÈÎÎñ
+	 * æ·»åŠ ä»»åŠ¡
+	 * @param t	éœ€è¦æ·»åŠ çš„ä»»åŠ¡
 	 */
 	public abstract void appendTask(final T t);
 
 	/**
-	 * ÏÂÊôÊ©¹¤µ¥Î»Íê³ÉÁËÒ»¸öÈÎÎñµÄ»Øµ÷º¯Êı
-	 * @param w	Íê³ÉÈÎÎñµÄÏÂÊô
-	 * @param t	Íê³ÉµÄÈÎÎñ
+	 * ä¸‹å±æ–½å·¥å•ä½å®Œæˆäº†ä¸€ä¸ªä»»åŠ¡çš„å›è°ƒå‡½æ•°
+	 * @param w	å®Œæˆä»»åŠ¡çš„ä¸‹å±
+	 * @param t	å®Œæˆçš„ä»»åŠ¡
 	 */
 	public void workUnitDoneTask(final WorkUnit<T> w, final T t) {
 		if (mBelongsToWorkUnit != null) {

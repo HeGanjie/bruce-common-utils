@@ -2,14 +2,14 @@ package bruce.common.productLine;
 
 
 /**
- * Ê©¹¤µ¥Î»¹¤³§£¬¸ù¾İ·şÎñµÄÃ¶¾ÙÀàĞÍ´´½¨Éú²úÏß
+ * æ–½å·¥å•ä½å·¥å‚ï¼Œæ ¹æ®æœåŠ¡çš„æšä¸¾ç±»å‹åˆ›å»ºç”Ÿäº§çº¿
  * @author Bruce
  *
  */
 public abstract class ProductLineFactory {
 
 	/**
-	 * ĞÂµÄÉú²úÏß(ĞèÒªÖØĞÂÊµÏÖ£º¸ù¾İ²»Í¬µÄ·şÎñÃû³Æ£¬Éú³É²»Í¬µÄProductLine)
+	 * æ–°çš„ç”Ÿäº§çº¿(éœ€è¦é‡æ–°å®ç°ï¼šæ ¹æ®ä¸åŒçš„æœåŠ¡åç§°ï¼Œç”Ÿæˆä¸åŒçš„ProductLine)
 	 * @param supportService
 	 * @return
 	 */

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * ksoap2 Ä¬ÈÏÅäÖÃ¶ÁÈ¡Àà
+ * ksoap2 é»˜è®¤é…ç½®è¯»å–ç±»
  * @author Bruce
  *
  */
@@ -24,7 +24,7 @@ public class PropertyMgr {
 	private static Properties props;
 
 	/**
-	 * ´ÓInputStream¶ÁÈ¡ÅäÖÃĞÅÏ¢
+	 * ä»InputStreamè¯»å–é…ç½®ä¿¡æ¯
 	 * @param configStream
 	 * @param key
 	 * @return

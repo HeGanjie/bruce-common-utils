@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Ê©¹¤µ¥Î»×é£¬³ÖÓĞ²¢ÁªµÄÊ©¹¤µ¥Î»£¬ÊÇÍ¬²½ÈÎÎñµÄµ¥Î»£¬Ê©¹¤µ¥Î»×éÀïÃæµÄÊ©¹¤µ¥Î»ÄÜ¹»Í¬Ê±´¦ÀíÍ¬Ò»¸öÈÎÎñ£¬
- * Íê³ÉÖ®ºóÍ¨ÖªWorkUnitGroup£¬È»ºóWorkUnitGroupµÈ´ıÍ¬Ò»¸öÈÎÎñÍê³Éºó¾ÍÏòÉÏ¼¶Ê©¹¤µ¥Î»»ã±¨.
+ * æ–½å·¥å•ä½ç»„ï¼ŒæŒæœ‰å¹¶è”çš„æ–½å·¥å•ä½ï¼Œæ˜¯åŒæ­¥ä»»åŠ¡çš„å•ä½ï¼Œæ–½å·¥å•ä½ç»„é‡Œé¢çš„æ–½å·¥å•ä½èƒ½å¤ŸåŒæ—¶å¤„ç†åŒä¸€ä¸ªä»»åŠ¡ï¼Œ
+ * å®Œæˆä¹‹åé€šçŸ¥WorkUnitGroupï¼Œç„¶åWorkUnitGroupç­‰å¾…åŒä¸€ä¸ªä»»åŠ¡å®Œæˆåå°±å‘ä¸Šçº§æ–½å·¥å•ä½æ±‡æŠ¥.
  * @author Bruce
  *
  */
@@ -19,7 +19,7 @@ public final class WorkUnitGroup<T extends Task> extends WorkUnit<T> {
 	final protected Map<T, Set<WorkUnit<T>>> doneTaskWorkUnitMap = new HashMap<T, Set<WorkUnit<T>>>();
 
 	/**
-	 * ²»ÍÆ¼öworkerµÄÊıÁ¿Ğ¡ÓÚ2£¬Èç¹ûÖ»ÓĞÒ»¸öworkerµÄ»°Ó¦¸ÃÖ±½ÓÊµÀı»¯Worker
+	 * ä¸æ¨èworkerçš„æ•°é‡å°äº2ï¼Œå¦‚æœåªæœ‰ä¸€ä¸ªworkerçš„è¯åº”è¯¥ç›´æ¥å®ä¾‹åŒ–Worker
 	 * @param workers
 	 */
 	public WorkUnitGroup(final WorkUnit<T> ...workUnits) {
@@ -47,8 +47,8 @@ public final class WorkUnitGroup<T extends Task> extends WorkUnit<T> {
 	}
 
 	/**
-	 * Í¬²½Íê³ÉÈÎÎñ£¬Ä³¸öÈÎÎñ»áµÈ×éÖĞµÄËùÓĞ¹¤ÈË¶¼Íê³ÉÁËÖ®ºó²Å»á·µ»Ø¸øÉÏ¼¶
-	 * ÒòÎª¿ÉÄÜÓĞ¶à¸ö¹¤ÈËÍ¬Ê±µ÷ÓÃ´Ë·½·¨£¬ËùÒÔÉèÖÃÁËÍ¬²½
+	 * åŒæ­¥å®Œæˆä»»åŠ¡ï¼ŒæŸä¸ªä»»åŠ¡ä¼šç­‰ç»„ä¸­çš„æ‰€æœ‰å·¥äººéƒ½å®Œæˆäº†ä¹‹åæ‰ä¼šè¿”å›ç»™ä¸Šçº§
+	 * å› ä¸ºå¯èƒ½æœ‰å¤šä¸ªå·¥äººåŒæ—¶è°ƒç”¨æ­¤æ–¹æ³•ï¼Œæ‰€ä»¥è®¾ç½®äº†åŒæ­¥
 	 */
 	@Override
 	public synchronized void workUnitDoneTask(final WorkUnit<T> workUnit, final T t) {
@@ -60,7 +60,7 @@ public final class WorkUnitGroup<T extends Task> extends WorkUnit<T> {
 		} else {
 			donedWorkUnits.add(workUnit);
 		}
-		if (donedWorkUnits.size() == mWorkUnits.size()) { //ËùÓĞÈË¶¼Íê³ÉÁËÈÎÎñ
+		if (donedWorkUnits.size() == mWorkUnits.size()) { //æ‰€æœ‰äººéƒ½å®Œæˆäº†ä»»åŠ¡
 			doneTaskWorkUnitMap.remove(t);
 			super.workUnitDoneTask(this, t);
 		}

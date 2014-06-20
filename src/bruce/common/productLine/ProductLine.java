@@ -7,7 +7,7 @@ import java.util.List;
 import bruce.common.utils.CommonUtils;
 
 /**
- * Éú²úÏß£¬³ÖÓĞ´®ÁªµÄÊ©¹¤µ¥Î»(WorkUnit)
+ * ç”Ÿäº§çº¿ï¼ŒæŒæœ‰ä¸²è”çš„æ–½å·¥å•ä½(WorkUnit)
  * @author Bruce
  *
  */
@@ -15,10 +15,10 @@ public final class ProductLine<T extends Task> extends WorkUnit<T> {
 	final List<WorkUnit<T>> mWorkUnits;
 
 	/**
-	 * ´´½¨Éú²úÏß
-	 * @param workUnits	°ó¶¨ÔÚ´ËÉú²úÏßÉÏµÄÊ©¹¤µ¥Î»£¬
-	 * Ò»µ©´´½¨Ôò²»ÄÜĞŞ¸Ä£¬²¢ÇÒÈÎÎñ´«µİµÄË³ĞòÊÇÒÔ´´½¨Ê±µÄË³ĞòÎª×¼
-	 * ²»ÍÆ¼öÉÙÓÚ2¸ö²ÎÊı£¬Èç¹ûÉÙÓÚ2¸ö²ÎÊıµÄ»°£¬ÍÆ¼öÖ»Ê¹ÓÃÒ»¸ö¹¤ÈËÀà
+	 * åˆ›å»ºç”Ÿäº§çº¿
+	 * @param workUnits	ç»‘å®šåœ¨æ­¤ç”Ÿäº§çº¿ä¸Šçš„æ–½å·¥å•ä½ï¼Œ
+	 * ä¸€æ—¦åˆ›å»ºåˆ™ä¸èƒ½ä¿®æ”¹ï¼Œå¹¶ä¸”ä»»åŠ¡ä¼ é€’çš„é¡ºåºæ˜¯ä»¥åˆ›å»ºæ—¶çš„é¡ºåºä¸ºå‡†
+	 * ä¸æ¨èå°‘äº2ä¸ªå‚æ•°ï¼Œå¦‚æœå°‘äº2ä¸ªå‚æ•°çš„è¯ï¼Œæ¨èåªä½¿ç”¨ä¸€ä¸ªå·¥äººç±»
 	 */
 	public ProductLine(final WorkUnit<T> ...workUnits) {
 		//assert(workUnits.length > 1);
@@ -39,7 +39,7 @@ public final class ProductLine<T extends Task> extends WorkUnit<T> {
 	}
 	
 	/**
-	 * Éú²úÏßÉÏµÄÄ³¸ö¹¤ÈËÍê³ÉÁËÈÎÎñ£¬½«ÈÎÎñ´«µİ¸øÏÂ¸ö¹¤ÈË»òÕß·µ»Ø¸øÉÏ¼¶
+	 * ç”Ÿäº§çº¿ä¸Šçš„æŸä¸ªå·¥äººå®Œæˆäº†ä»»åŠ¡ï¼Œå°†ä»»åŠ¡ä¼ é€’ç»™ä¸‹ä¸ªå·¥äººæˆ–è€…è¿”å›ç»™ä¸Šçº§
 	 */
 	@Override
 	public void workUnitDoneTask(final WorkUnit<T> w, final T t) {
@@ -52,7 +52,7 @@ public final class ProductLine<T extends Task> extends WorkUnit<T> {
 	}
 
 	/**
-	 * Ìí¼ÓÈÎÎñ @see WorkUnit#appendTask(Task)
+	 * æ·»åŠ ä»»åŠ¡ @see WorkUnit#appendTask(Task)
 	 */
 	@Override
 	public void appendTask(final T t) {

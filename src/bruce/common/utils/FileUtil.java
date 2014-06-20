@@ -34,7 +34,7 @@ import bruce.common.functional.Func1;
 import bruce.common.functional.LambdaUtils;
 
 /**
- * ÎÄ¼ş¹¤¾ßÀà£¬²Ù×÷ÎÄ¼şµÄ¹¤¾ß¶¼Ğ´ÔÚÕâÀï
+ * æ–‡ä»¶å·¥å…·ç±»ï¼Œæ“ä½œæ–‡ä»¶çš„å·¥å…·éƒ½å†™åœ¨è¿™é‡Œ
  * @author Bruce
  *
  */
@@ -44,19 +44,19 @@ public final class FileUtil {
 	private static Pattern pathPattern = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
 
 	/**
-	 * Ê¹ÓÃÄ¬ÈÏµÄ±àÂë¶ÁÈ¡ÏîÄ¿ÎÄ±¾×ÊÔ´ÎÄ¼ş
-	 * @param resPath	×ÊÔ´ÎÄ¼şÂ·¾¶
-	 * @return	ÎÄ¼şÄÚÈİ
+	 * ä½¿ç”¨é»˜è®¤çš„ç¼–ç è¯»å–é¡¹ç›®æ–‡æœ¬èµ„æºæ–‡ä»¶
+	 * @param resPath	èµ„æºæ–‡ä»¶è·¯å¾„
+	 * @return	æ–‡ä»¶å†…å®¹
 	 */
 	public static String readTextFileForDefaultEncoding(final String resPath) {
 		return readResourceTextFile(resPath, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * ¶ÁÈ¡ÏîÄ¿ÎÄ±¾×ÊÔ´ÎÄ¼ş
-	 * @param resPath	×ÊÔ´ÎÄ¼şÂ·¾¶
-	 * @param encodingName	±àÂëÃû³Æ
-	 * @return	ÎÄ¼şÄÚÈİ
+	 * è¯»å–é¡¹ç›®æ–‡æœ¬èµ„æºæ–‡ä»¶
+	 * @param resPath	èµ„æºæ–‡ä»¶è·¯å¾„
+	 * @param encodingName	ç¼–ç åç§°
+	 * @return	æ–‡ä»¶å†…å®¹
 	 */
 	public static String readResourceTextFile(final String resPath, final String encodingName) {
 		InputStream xmlResourceInputStream = FileUtil.class.getClassLoader()
@@ -139,7 +139,7 @@ public final class FileUtil {
 	}
 	
 	/**
-	 * ºÏ²¢ÎÄ¼ş
+	 * åˆå¹¶æ–‡ä»¶
 	 * @param destFile
 	 * @param files
 	 * @throws IOException
@@ -164,7 +164,7 @@ public final class FileUtil {
 	}
 	
 	/**
-	 * ¶ÁÈëÎÄ±¾ÎÄ¼ş
+	 * è¯»å…¥æ–‡æœ¬æ–‡ä»¶
 	 * @param textFile
 	 * @return
 	 */
@@ -173,9 +173,9 @@ public final class FileUtil {
 	}
 
 	/**
-	 * ¶ÁÈëÎÄ±¾ÎÄ¼ş
+	 * è¯»å…¥æ–‡æœ¬æ–‡ä»¶
 	 * @param file
-	 * @param encoding		ÎÄ¼ş±àÂë
+	 * @param encoding		æ–‡ä»¶ç¼–ç 
 	 * @return
 	 */
 	public static String readTextFile(final File file, String encoding) {
@@ -197,9 +197,9 @@ public final class FileUtil {
     }
 
 	/**
-	 * ¸ù¾İÂ·¾¶È¡µÃÎÄ¼şÃû
-	 * @param path	Â·¾¶
-	 * @return	ÎÄ¼şÃû
+	 * æ ¹æ®è·¯å¾„å–å¾—æ–‡ä»¶å
+	 * @param path	è·¯å¾„
+	 * @return	æ–‡ä»¶å
 	 */
 	public static String getBaseNameByPath(final String path) {
 		Matcher m = pathPattern.matcher(path);
@@ -208,9 +208,9 @@ public final class FileUtil {
 	}
 	
 	/**
-	 * ¸ù¾İÂ·¾¶È¡µÃÎÄ¼ş¼Ğ
-	 * @param path	Â·¾¶
-	 * @return	ÎÄ¼ş¼ĞÂ·¾¶
+	 * æ ¹æ®è·¯å¾„å–å¾—æ–‡ä»¶å¤¹
+	 * @param path	è·¯å¾„
+	 * @return	æ–‡ä»¶å¤¹è·¯å¾„
 	 */
 	public static String getFileDirPath(final String path) {
 		Matcher m = pathPattern.matcher(path);
@@ -219,9 +219,9 @@ public final class FileUtil {
 	}
 
 	/**
-	 * ´ÓBufferedReader¶ÁÈ¡ÎÄ±¾ÄÚÈİ
+	 * ä»BufferedReaderè¯»å–æ–‡æœ¬å†…å®¹
 	 * @param xmlFileReader bufferedReader
-	 * @return	ÎÄ±¾ÄÚÈİ
+	 * @return	æ–‡æœ¬å†…å®¹
 	 */
 	private static String readTextFromReader(final BufferedReader xmlFileReader) {
 		StringBuffer sb = new StringBuffer();

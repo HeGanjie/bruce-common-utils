@@ -4,7 +4,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * ¹¤ÈËÀà£¬±£Ö¤Ò»ÓĞÈÎÎñÁ¢¼´Æô¶¯¡¢Öğ¸öÍê³ÉÈÎÎñ²¢ÇÒÍê³ÉÒ»¸öÍ¨ÖªÒ»¸ö¸øÉÏ¼¶Group»òProductLine
+ * å·¥äººç±»ï¼Œä¿è¯ä¸€æœ‰ä»»åŠ¡ç«‹å³å¯åŠ¨ã€é€ä¸ªå®Œæˆä»»åŠ¡å¹¶ä¸”å®Œæˆä¸€ä¸ªé€šçŸ¥ä¸€ä¸ªç»™ä¸Šçº§Groupæˆ–ProductLine
  * @author Bruce
  *
  */
@@ -17,21 +17,21 @@ public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runn
 	}
 
 	/**
-	 * Ìí¼ÓÈÎÎñ£¬¹¤ÈË»á×Ô¶¯Æô¶¯¶ÀÓĞµÄÏß³ÌÀ´´¦ÀíÈÎÎñ
+	 * æ·»åŠ ä»»åŠ¡ï¼Œå·¥äººä¼šè‡ªåŠ¨å¯åŠ¨ç‹¬æœ‰çš„çº¿ç¨‹æ¥å¤„ç†ä»»åŠ¡
 	 */
 	@Override
 	public synchronized void appendTask(final T t) {
 		mTasks.add(t);
 
-		// ±£Ö¤¼ÓÈëTaskÖ®ºó£¬ÄÜ¹»ÂíÉÏ±»Ö´ĞĞ
+		// ä¿è¯åŠ å…¥Taskä¹‹åï¼Œèƒ½å¤Ÿé©¬ä¸Šè¢«æ‰§è¡Œ
 		if (workerThread.getState() == Thread.State.NEW) {
-			//ÓĞ¿ÉÄÜstartÖ®Ç°Ïß³ÌÒÑ¾­startÁË
+			//æœ‰å¯èƒ½startä¹‹å‰çº¿ç¨‹å·²ç»startäº†
 			workerThread.start();
 		}
 	}
 
 	/**
-	 * Ö´ĞĞÈÎÎñ£¬ËùÓĞµÄÈÎÎñ¶¼Ö´ĞĞÍê³ÉºóÏß³ÌÍ£Ö¹£¬Èç¹ûÔÙÌí¼Ó£¬ÓÖ»áÔÙÖØĞÂÖ´ĞĞ´Ë·½·¨
+	 * æ‰§è¡Œä»»åŠ¡ï¼Œæ‰€æœ‰çš„ä»»åŠ¡éƒ½æ‰§è¡Œå®Œæˆåçº¿ç¨‹åœæ­¢ï¼Œå¦‚æœå†æ·»åŠ ï¼Œåˆä¼šå†é‡æ–°æ‰§è¡Œæ­¤æ–¹æ³•
 	 */
 	@Override
 	public void run() {
@@ -43,7 +43,7 @@ public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runn
 		}
 		synchronized (this) {
 			workerThread = createNewThread();
-			//ÓĞ¿ÉÄÜÖ´ĞĞÍêcreateNewThread¾ÍÒÑ¾­ÓĞĞÂÈÎÎñÁË£¬ÕâÊ±ºòĞèÒª¼ÌĞøÖ´ĞĞ
+			//æœ‰å¯èƒ½æ‰§è¡Œå®ŒcreateNewThreadå°±å·²ç»æœ‰æ–°ä»»åŠ¡äº†ï¼Œè¿™æ—¶å€™éœ€è¦ç»§ç»­æ‰§è¡Œ
 			if (!mTasks.isEmpty()) {
 				workerThread.start();
 			}
@@ -51,20 +51,20 @@ public abstract class Worker<T extends Task> extends WorkUnit<T> implements Runn
 	}
 
 	/**
-	 * ÈÃ×ÓÀàÊµÏÖ´¦ÀíÈÎÎñµÄÂß¼­
-	 * @param t	ÈÎÎñ
-	 * @return	ÊÇ·ñ´«µİÕâ¸öÈÎÎñ¸øÏÂÒ»¸öworker
+	 * è®©å­ç±»å®ç°å¤„ç†ä»»åŠ¡çš„é€»è¾‘
+	 * @param t	ä»»åŠ¡
+	 * @return	æ˜¯å¦ä¼ é€’è¿™ä¸ªä»»åŠ¡ç»™ä¸‹ä¸€ä¸ªworker
 	 */
 	protected abstract boolean handleTask(T t);
 
 	/**
 	 * 
 	 * @param task
-	 * @return		ÈÎÎñ±¾À´ÒÑ¾­ÔÚ¶ÓÁĞÖĞ
+	 * @return		ä»»åŠ¡æœ¬æ¥å·²ç»åœ¨é˜Ÿåˆ—ä¸­
 	 */
 	public boolean requeueTask(T task) {
 		boolean contains = false;
-		synchronized (mTasks) { //±ÜÃâÔÚ´ËÆÚ¼äÈÎÎñ±»Ö´ĞĞ
+		synchronized (mTasks) { //é¿å…åœ¨æ­¤æœŸé—´ä»»åŠ¡è¢«æ‰§è¡Œ
 			contains = mTasks.contains(task);
 			if (contains) mTasks.remove(task);
 		}

@@ -3,8 +3,8 @@ package bruce.common.productLine;
 import java.io.Serializable;
 
 /**
- * ÈÎÎñ½Ó¿Ú
- * ÎªÁËÊ¹ÈÎÎñ¶ÀÒ»ÎŞ¶ş£¬±ØĞëÖØĞ´ {@link #hashCode()} ºÍ {@link #equals(Object)} ·½·¨
+ * ä»»åŠ¡æ¥å£
+ * ä¸ºäº†ä½¿ä»»åŠ¡ç‹¬ä¸€æ— äºŒï¼Œå¿…é¡»é‡å†™ {@link #hashCode()} å’Œ {@link #equals(Object)} æ–¹æ³•
  * @author Bruce
  *
  */

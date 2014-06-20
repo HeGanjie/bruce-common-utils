@@ -61,7 +61,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		id = CommonUtils.dateFormat(new Date(), "_", "yyyyMMdd", "HHmmss");
 
 		if (!hasSameDownloadRecord())
-			createDownloadRecord().write(getRecordFilePath()); // ´´½¨ÏÂÔØ¼ÇÂ¼ÎÄ¼ş
+			createDownloadRecord().write(getRecordFilePath()); // åˆ›å»ºä¸‹è½½è®°å½•æ–‡ä»¶
 	}
 
 	protected DownloadTask(String urlStr, String saveFileName) {
@@ -78,7 +78,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			throw new UnsupportedOperationException();
 
 		state = DownloadTaskState.stop;
-		CommonUtils.trace(getClass(), "ÏÂÔØ±»ÖÕÖ¹!");
+		CommonUtils.trace(getClass(), "ä¸‹è½½è¢«ç»ˆæ­¢!");
 	}
 
 	public void start() {
@@ -112,7 +112,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	protected boolean hasSameDownloadRecord() {
-		// ¶ÏµãĞø´«£¬¼ÙÊ¹ÓĞÒ»ÎÄ¼şa.doc£¬¼ì²éÁÙÊ±ÎÄ¼şa.doc.download£ºÈô´æÔÚ²¢ÇÒµ±ÖĞ¼ÇÂ¼µÄ URL/·Ö¶ÎÊı/×Ü³¤¶È ²»Ò»ÖÂ£¬ÔòÉ¾³ıËùÓĞµÄÁÙÊ±ÎÄ¼ş
+		// æ–­ç‚¹ç»­ä¼ ï¼Œå‡ä½¿æœ‰ä¸€æ–‡ä»¶a.docï¼Œæ£€æŸ¥ä¸´æ—¶æ–‡ä»¶a.doc.downloadï¼šè‹¥å­˜åœ¨å¹¶ä¸”å½“ä¸­è®°å½•çš„ URL/åˆ†æ®µæ•°/æ€»é•¿åº¦ ä¸ä¸€è‡´ï¼Œåˆ™åˆ é™¤æ‰€æœ‰çš„ä¸´æ—¶æ–‡ä»¶
 		final File tmpFile = new File(getRecordFilePath());
 		if (tmpFile.exists()) {
 			if (!DownloadRecord.load(tmpFile).equals(createDownloadRecord())) deleteTempFile();
@@ -133,12 +133,12 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	/**
-	 * ÏÂÔØÇ°¼ì²éÊÇ·ñÄÜ¶ÏµãĞø´«£¬ÊÇÔò´ÓÉÏ´Î¶Ï¿ªµÄµØ·½¿ªÊ¼ÏÂÔØ
+	 * ä¸‹è½½å‰æ£€æŸ¥æ˜¯å¦èƒ½æ–­ç‚¹ç»­ä¼ ï¼Œæ˜¯åˆ™ä»ä¸Šæ¬¡æ–­å¼€çš„åœ°æ–¹å¼€å§‹ä¸‹è½½
 	 * @return
 	 */
 	protected long checkResumable() {
 		File writefileAt = new File(saveFileAt);
-		return writefileAt.exists() ? writefileAt.length() : 0; // ¶ÏµãĞø´«
+		return writefileAt.exists() ? writefileAt.length() : 0; // æ–­ç‚¹ç»­ä¼ 
 	}
 
 	protected int getContentLen() throws IOException, MalformedURLException {
@@ -195,13 +195,13 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 			if (end < offset + finishedLen) {
 				state = DownloadTaskState.finished;
 				mainTask.reportProgress();
-				return; //´Ë²¿·ÖÒÑÏÂÔØÍê³É
+				return; //æ­¤éƒ¨åˆ†å·²ä¸‹è½½å®Œæˆ
 			}
 			state = DownloadTaskState.downloading;
 
 			conn = (HttpURLConnection) new URL(url).openConnection();
 			configConnection(conn);
-			conn.setRequestProperty(HTTP_HEAD_RANGE, CommonUtils.buildString("bytes=", offset + finishedLen, "-", end)); //°üº¬ ÀıÈç0-500¸ö×Ö½Ú£¬Ó¦¸ÃÊÇ0-499 
+			conn.setRequestProperty(HTTP_HEAD_RANGE, CommonUtils.buildString("bytes=", offset + finishedLen, "-", end)); //åŒ…å« ä¾‹å¦‚0-500ä¸ªå­—èŠ‚ï¼Œåº”è¯¥æ˜¯0-499 
 			conn.connect();
 			inputStreamPtr.value = conn.getInputStream();
 
@@ -261,7 +261,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	protected long statisticsFinishedLen() { return LambdaUtils.reduce(tasks, 0l, funcInStatistics); }
 
 	/**
-	 * É¾³ı.downloadÒÔ¼°ÆäËûÁÙÊ±ÎÄ¼ş
+	 * åˆ é™¤.downloadä»¥åŠå…¶ä»–ä¸´æ—¶æ–‡ä»¶
 	 */
 	public void deleteTempFile() {
 		final File tmpFile = new File(getRecordFilePath());
@@ -355,7 +355,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	}
 
 	public static DownloadTask create(String url, String savePath, int downloaderCount) throws IOException, CloneNotSupportedException {
-		//´Ó¼ÇÂ¼ÎÄ¼şÖĞ¶ÁÈ¡url£¬Èç¹ûurlÎªnullµÄ»°
+		//ä»è®°å½•æ–‡ä»¶ä¸­è¯»å–urlï¼Œå¦‚æœurlä¸ºnullçš„è¯
 		if (CommonUtils.isStringNullOrWriteSpace(url) &&
 				!CommonUtils.isStringNullOrWriteSpace(FileUtil.getBaseNameByPath(savePath))) {
 			url = DownloadRecord.load(new File(DownloadTask.getRecordFilePath(savePath))).url;
@@ -369,8 +369,8 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		return new DownloadTask(url, downloadAt, downloaderCount);
 	}
 	/**
-	 * È¡µÃ±£´æÂ·¾¶£¬²¢´´½¨ÎÄ¼ş¼Ğ<br/>
-	 * Èç¹ûsavePathÖ»Ìá¹©ÁË±£´æÖÁÄÄ¸öÎÄ¼ş¼Ğ£¬ÔòÒÔurlÖĞµÄÎÄ¼şÃûÃüÃû£¬·ñÔò±£´æÖÁsavePath
+	 * å–å¾—ä¿å­˜è·¯å¾„ï¼Œå¹¶åˆ›å»ºæ–‡ä»¶å¤¹<br/>
+	 * å¦‚æœsavePathåªæä¾›äº†ä¿å­˜è‡³å“ªä¸ªæ–‡ä»¶å¤¹ï¼Œåˆ™ä»¥urlä¸­çš„æ–‡ä»¶åå‘½åï¼Œå¦åˆ™ä¿å­˜è‡³savePath
 	 * @param url
 	 * @param savePath
 	 * @return

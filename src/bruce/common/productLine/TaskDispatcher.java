@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ÈÎÎñ·Ö·¢Õß£¬»º´æ¹¤³§ºÍProductLine
- * ¿É½«ĞèÒª´¦ÀíµÄÈÎÎñÍ¨¹ıdispatchTask¼ÓÈë£¬¶à¸ö¹¤³§ÄÜÓĞÏàÍ¬µÄsupportedService
+ * ä»»åŠ¡åˆ†å‘è€…ï¼Œç¼“å­˜å·¥å‚å’ŒProductLine
+ * å¯å°†éœ€è¦å¤„ç†çš„ä»»åŠ¡é€šè¿‡dispatchTaskåŠ å…¥ï¼Œå¤šä¸ªå·¥å‚èƒ½æœ‰ç›¸åŒçš„supportedService
  * @author Bruce
  *
  */
@@ -17,8 +17,8 @@ public final class TaskDispatcher {
 	private List<ProductLineFactory> factoryList = null;
 
 	/**
-	 * ´´½¨ÈÎÎñ´¦Àí¹¤³§(Èç¹ûÖ»ÓĞÒ»¸ö¹¤³§µÄ»°ÍÆ¼öÖ±½ÓÊ¹ÓÃ¾ßÌåµÄProductLineFactory)
-	 * @param factory	Éú²úÏß¹¤³§
+	 * åˆ›å»ºä»»åŠ¡å¤„ç†å·¥å‚(å¦‚æœåªæœ‰ä¸€ä¸ªå·¥å‚çš„è¯æ¨èç›´æ¥ä½¿ç”¨å…·ä½“çš„ProductLineFactory)
+	 * @param factory	ç”Ÿäº§çº¿å·¥å‚
 	 */
 	public TaskDispatcher(final ProductLineFactory ...factories) {
 		assert(factories.length > 1);
@@ -26,9 +26,9 @@ public final class TaskDispatcher {
 	}
 
 	/**
-	 * ·Ö·¢ÈÎÎñ£¬½«ÈÎÎñ¸ù¾İÑ¡ÔñµÄ·şÎñ·Ö·¢¸øÄÚ¶¨µÄÉú²úÏß
-	 * @param supportedService	Éú²úÏß¹¤³§Ö§³ÖµÄ·şÎñ
-	 * @param t	ÈÎÎñ
+	 * åˆ†å‘ä»»åŠ¡ï¼Œå°†ä»»åŠ¡æ ¹æ®é€‰æ‹©çš„æœåŠ¡åˆ†å‘ç»™å†…å®šçš„ç”Ÿäº§çº¿
+	 * @param supportedService	ç”Ÿäº§çº¿å·¥å‚æ”¯æŒçš„æœåŠ¡
+	 * @param t	ä»»åŠ¡
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void dispatchTask(final String supportedService, final Task t) {

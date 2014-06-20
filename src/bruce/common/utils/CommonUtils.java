@@ -22,7 +22,7 @@ import java.util.Set;
 
 
 /**
- * Í¨ÓÃ¹¤¾ß¼¯
+ * é€šç”¨å·¥å…·é›†
  * @author Bruce
  *
  */
@@ -40,10 +40,10 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ½«Êı×é×ª»»³É×Ö·û´®£¬¼òµ¥Æğ¼ûÓ¦¸ÃÓÃArrays.toString(Object[] arr)
-	 * @param arrObjects	¶ÔÏóÊı×é
-	 * @param joinString	¸ô¿ªÃ¿¸öÄÚÈİµÄ×Ö·û´®
-	 * @return	×ª»»½á¹û
+	 * å°†æ•°ç»„è½¬æ¢æˆå­—ç¬¦ä¸²ï¼Œç®€å•èµ·è§åº”è¯¥ç”¨Arrays.toString(Object[] arr)
+	 * @param arrObjects	å¯¹è±¡æ•°ç»„
+	 * @param joinString	éš”å¼€æ¯ä¸ªå†…å®¹çš„å­—ç¬¦ä¸²
+	 * @return	è½¬æ¢ç»“æœ
 	 */
 	public static String displayArray(final Object[] arrObjects, final String joinString) {
 		StringBuilder sb = new StringBuilder();
@@ -55,8 +55,8 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ½«ListµÄtoStringÖ®ºóµÄÖµ½âÎö£¬·µ»ØList<br/>
-	 * ×¢Òâ£º·µ»ØµÄÀàĞÍÊÇ×Ö·û´®ÁĞ±í£¬²¢ÇÒtoStringÇ°µÄÊı×éÖĞµÄÔªËØtoStringºó²»Ó¦¸Ã°üº¬", "
+	 * å°†Listçš„toStringä¹‹åçš„å€¼è§£æï¼Œè¿”å›List<br/>
+	 * æ³¨æ„ï¼šè¿”å›çš„ç±»å‹æ˜¯å­—ç¬¦ä¸²åˆ—è¡¨ï¼Œå¹¶ä¸”toStringå‰çš„æ•°ç»„ä¸­çš„å…ƒç´ toStringåä¸åº”è¯¥åŒ…å«", "
 	 * @param listStr
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ¸ßĞ§ÂÊµØ¸ù¾İ²ÎÊı£¬¹¹Ôì×Ö·û´®
+	 * é«˜æ•ˆç‡åœ°æ ¹æ®å‚æ•°ï¼Œæ„é€ å­—ç¬¦ä¸²
 	 * @param args
 	 * @return
 	 */
@@ -87,7 +87,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ¸ñÊ½»¯Êä³öµ÷ÊÔĞÅÏ¢£¬Ê¹ÓÃ·½·¨ÀàËÆ£º{@link String#format(String, Object...)}
+	 * æ ¼å¼åŒ–è¾“å‡ºè°ƒè¯•ä¿¡æ¯ï¼Œä½¿ç”¨æ–¹æ³•ç±»ä¼¼ï¼š{@link String#format(String, Object...)}
 	 * @param format
 	 * @param objects
 	 */
@@ -96,7 +96,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * È¡µÃ·½·¨µÄĞÎ²ÎÃû³ÆÊı×é£¬±ØĞëÔÚ½Ó¿ÚµÄ·½·¨ÃûÉÏÉùÃ÷£¬ÀıÈç£º@ParamsDetail( ParamsDetail_paramName="username,password")
+	 * å–å¾—æ–¹æ³•çš„å½¢å‚åç§°æ•°ç»„ï¼Œå¿…é¡»åœ¨æ¥å£çš„æ–¹æ³•åä¸Šå£°æ˜ï¼Œä¾‹å¦‚ï¼š@ParamsDetail( ParamsDetail_paramName="username,password")
 	 * @param method
 	 * @return
 	 * @throws InvocationTargetException
@@ -124,7 +124,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎª¿Õ»ònull
+	 * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©ºæˆ–null
 	 * @param mValue
 	 * @return
 	 */
@@ -133,7 +133,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎª¿Õ»ònull
+	 * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©ºæˆ–null
 	 * @param mValue
 	 * @return
 	 */
@@ -142,9 +142,9 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÆ¥ÅäÕıÔò±í´ïÊ½
-	 * @param preMatch	×Ö·û´®
-	 * @param regex	ÕıÔò±í´ïÊ½
+	 * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦åŒ¹é…æ­£åˆ™è¡¨è¾¾å¼
+	 * @param preMatch	å­—ç¬¦ä¸²
+	 * @param regex	æ­£åˆ™è¡¨è¾¾å¼
 	 * @return
 	 */
 	public static boolean matchRegex(final String preMatch, final String regex) {
@@ -153,7 +153,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * µ÷ÊÔÊä³ö£¬Èç¹û {@link #DEBUGGING} ÎªfalseÔò²»Êä³ö
+	 * è°ƒè¯•è¾“å‡ºï¼Œå¦‚æœ {@link #DEBUGGING} ä¸ºfalseåˆ™ä¸è¾“å‡º
 	 * @param msg
 	 */
 	public static void traceSpec(Class<?> cls, final String msg) {
@@ -166,7 +166,7 @@ public final class CommonUtils {
 	}
 	
 	/**
-	 * µ÷ÊÔÊä³ö£¬Èç¹û {@link #DEBUGGING} ÎªfalseÔò²»Êä³ö
+	 * è°ƒè¯•è¾“å‡ºï¼Œå¦‚æœ {@link #DEBUGGING} ä¸ºfalseåˆ™ä¸è¾“å‡º
 	 * @param msg
 	 */
 	public static void trace(final String msg) {
@@ -180,7 +180,7 @@ public final class CommonUtils {
 	}
 	
 	/**
-	 * ´ÓÒì³£ÖĞÌáÈ¡ËùÓĞµÄ´íÎóĞÅÏ¢
+	 * ä»å¼‚å¸¸ä¸­æå–æ‰€æœ‰çš„é”™è¯¯ä¿¡æ¯
 	 * @param t
 	 * @return
 	 */
@@ -191,9 +191,9 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ×Ö·û´®Ïà¼õ	±ÈÈç: stringDecrease("abc123", "123") == "abc"
-	 * @param src	Ô´×Ö·û´®
-	 * @param regex	ÕıÔò
+	 * å­—ç¬¦ä¸²ç›¸å‡	æ¯”å¦‚: stringDecrease("abc123", "123") == "abc"
+	 * @param src	æºå­—ç¬¦ä¸²
+	 * @param regex	æ­£åˆ™
 	 * @return
 	 */
 	public static String stringDecrease(final String src, final String regex) {
@@ -201,11 +201,11 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ¸ñÊ½»¯ÈÕÆÚ
-	 * @param d	ÈÕÆÚ
-	 * @param seperator	ÈÕÆÚÓëÊ±¼äÖ®¼äµÄ·Ö¸ô·û
-	 * @param dateFormatStr	ÈÕÆÚµÄ¸ñÊ½
-	 * @param timeFormatStr	Ê±¼ä¸ñÊ½
+	 * æ ¼å¼åŒ–æ—¥æœŸ
+	 * @param d	æ—¥æœŸ
+	 * @param seperator	æ—¥æœŸä¸æ—¶é—´ä¹‹é—´çš„åˆ†éš”ç¬¦
+	 * @param dateFormatStr	æ—¥æœŸçš„æ ¼å¼
+	 * @param timeFormatStr	æ—¶é—´æ ¼å¼
 	 * @return
 	 */
 	public static String dateFormat(final Date d, final String seperator,
@@ -216,7 +216,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * Ê¹ÓÃÄ¬ÈÏµÄÈÕÆÚÊ±¼ä¸ñÊ½¸ñÊ½»¯ÈÕÆÚ
+	 * ä½¿ç”¨é»˜è®¤çš„æ—¥æœŸæ—¶é—´æ ¼å¼æ ¼å¼åŒ–æ—¥æœŸ
 	 * @see CommonUtils#dateFormat(Date, String, String, String)
 	 * @param d
 	 * @param seperator
@@ -227,11 +227,11 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ½âÎöÈÕÆÚ×Ö·û´®
-	 * @param dateStr	ÈÕÆÚ×Ö·û´®
-	 * @param seperatorRegex	ÈÕÆÚÓëÊ±¼äÖ®¼äµÄ·Ö¸ô·ûÕıÔò
-	 * @param dateFormatStr		ÈÕÆÚ¸ñÊ½
-	 * @param timeFormatStr		Ê±¼ä¸ñÊ½
+	 * è§£ææ—¥æœŸå­—ç¬¦ä¸²
+	 * @param dateStr	æ—¥æœŸå­—ç¬¦ä¸²
+	 * @param seperatorRegex	æ—¥æœŸä¸æ—¶é—´ä¹‹é—´çš„åˆ†éš”ç¬¦æ­£åˆ™
+	 * @param dateFormatStr		æ—¥æœŸæ ¼å¼
+	 * @param timeFormatStr		æ—¶é—´æ ¼å¼
 	 * @return
 	 * @throws ParseException
 	 */
@@ -242,7 +242,7 @@ public final class CommonUtils {
 		Date parse1 = dateFormat.parse(splitd[0]);
 		
 		if (splitd.length == 1) return parse1;
-		//Ê±¼ä·ÖÓĞºÁÃëºÍÎŞºÁÃë´¦Àí
+		//æ—¶é—´åˆ†æœ‰æ¯«ç§’å’Œæ— æ¯«ç§’å¤„ç†
 		String timeStr = splitd[1];
 		Date parse2 = null;
 		SimpleDateFormat timeFormat = new SimpleDateFormat(timeFormatStr);
@@ -254,7 +254,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ×Ô¶¯½âÎöÈÕÆÚ×Ö·û´®
+	 * è‡ªåŠ¨è§£ææ—¥æœŸå­—ç¬¦ä¸²
 	 * @see CommonUtils#parseDate(String, String, String, String)
 	 * @param dateStr
 	 * @param seperatorRegex
@@ -273,7 +273,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ½«×Ö·ûÊı×éÒÔ16½øÖÆµÄĞÎÊ½×ª»»Îª×Ö·û´®£¬ÀıÈç£ºdisplayBytes(new byte[]{154, 186}) = "9ABA"
+	 * å°†å­—ç¬¦æ•°ç»„ä»¥16è¿›åˆ¶çš„å½¢å¼è½¬æ¢ä¸ºå­—ç¬¦ä¸²ï¼Œä¾‹å¦‚ï¼šdisplayBytes(new byte[]{154, 186}) = "9ABA"
 	 * @param bytes
 	 * @return
 	 */
@@ -288,7 +288,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÊÇº¯Êı {@link #displayBytes(byte[])}µÄÄæÏòº¯Êı
+	 * æ˜¯å‡½æ•° {@link #displayBytes(byte[])}çš„é€†å‘å‡½æ•°
 	 * @param data
 	 * @return
 	 */
@@ -302,7 +302,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ¸ù¾İ×Ö·û³¤¶È½×¶Î×Ö·û´®µ½¼¯ºÏ
+	 * æ ¹æ®å­—ç¬¦é•¿åº¦é˜¶æ®µå­—ç¬¦ä¸²åˆ°é›†åˆ
 	 * @param str
 	 * @param length
 	 * @return
@@ -318,7 +318,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÏÂ±êindexÊÇ·ñÊÇÁĞ±ílºÏ·¨µÄÏÂ±ê
+	 * ä¸‹æ ‡indexæ˜¯å¦æ˜¯åˆ—è¡¨låˆæ³•çš„ä¸‹æ ‡
 	 * @param l
 	 * @param index
 	 * @return
@@ -332,7 +332,7 @@ public final class CommonUtils {
 	}
 	
 	/**
-	 * ½âÎöHashMap.toString()ºóµÄ½á¹û£¬»¹Ô­HashMapÊµÀı£¬ MapµÄkeyºÍvalue²»ÄÜº¬ÓĞ", "(¶ººÅ+¿Õ¸ñ)
+	 * è§£æHashMap.toString()åçš„ç»“æœï¼Œè¿˜åŸHashMapå®ä¾‹ï¼Œ Mapçš„keyå’Œvalueä¸èƒ½å«æœ‰", "(é€—å·+ç©ºæ ¼)
 	 * @param mapDescriptionStr
 	 * @return
 	 */
@@ -356,7 +356,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * È¡µÃ×Ö·û´®µÄMD5
+	 * å–å¾—å­—ç¬¦ä¸²çš„MD5
 	 * @param str
 	 * @return
 	 */
@@ -371,7 +371,7 @@ public final class CommonUtils {
     }
 
 	/**
-	 * ÏŞÖÆ×Ö·û´®µÄ×Ö·û³¤¶È£¬³¬¹ıÁË³¤¶ÈµÄ»°£¬ºóÃæµÄ×Ö·û¶ªÆú£¬²¹ÉÏendingString
+	 * é™åˆ¶å­—ç¬¦ä¸²çš„å­—ç¬¦é•¿åº¦ï¼Œè¶…è¿‡äº†é•¿åº¦çš„è¯ï¼Œåé¢çš„å­—ç¬¦ä¸¢å¼ƒï¼Œè¡¥ä¸ŠendingString
 	 * @param src
 	 * @param keepLength
 	 * @param endingString
@@ -386,11 +386,11 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÏŞÖÆ×Ö·û´®³¤¶È£¨ÒÔ×Ö·û³¤¶ÈÎªµ¥Î»£¬²»ÊÇ×Ö·û¸öÊı¡£¼ÙÉè°ë½ÇµÄ³¤¶ÈÎª1£¬È«½ÇÎª2£©
-	 * @param src		Ô´×Ö·û´®
-	 * @param maxByteCharLength		×î´ó×Ö·û´®³¤¶È
-	 * @param endingString		½áÊø×Ö·û´®
-	 * @param endingStringByteLength		½áÊø×Ö·û´®³¤¶È
+	 * é™åˆ¶å­—ç¬¦ä¸²é•¿åº¦ï¼ˆä»¥å­—ç¬¦é•¿åº¦ä¸ºå•ä½ï¼Œä¸æ˜¯å­—ç¬¦ä¸ªæ•°ã€‚å‡è®¾åŠè§’çš„é•¿åº¦ä¸º1ï¼Œå…¨è§’ä¸º2ï¼‰
+	 * @param src		æºå­—ç¬¦ä¸²
+	 * @param maxByteCharLength		æœ€å¤§å­—ç¬¦ä¸²é•¿åº¦
+	 * @param endingString		ç»“æŸå­—ç¬¦ä¸²
+	 * @param endingStringByteLength		ç»“æŸå­—ç¬¦ä¸²é•¿åº¦
 	 * @return
 	 * @throws IOException
 	 */
@@ -404,7 +404,7 @@ public final class CommonUtils {
 		int byteCharCount = 0, shortCharCount = 0;
 
 		try {
-			//Ñ­»·Íê³ÉºóÓĞÈıÖÖÇé¿ö£¬·Ö¸ô·û´ú±í×î³¤ÏŞÖÆ£º	a|		°¡|		¿Ú|°¢
+			//å¾ªç¯å®Œæˆåæœ‰ä¸‰ç§æƒ…å†µï¼Œåˆ†éš”ç¬¦ä»£è¡¨æœ€é•¿é™åˆ¶ï¼š	a|		å•Š|		å£|é˜¿
 			while ((read = sr.read()) != -1) {
 				if (read < 256) {
 					byteCharCount++;
@@ -423,7 +423,7 @@ public final class CommonUtils {
 
 		int charLen = byteCharCount + (shortCharCount << 1);
 		if (read != -1) {
-			//ºóÃæ»¹ÓĞ×Ö·û£¬¶ªÆú×Ö·ûÖ±µ½ÉÙÓÚµÈÓÚmaxByteCharLength - endingStringByteLengthÎ»£¬²¹³äendingString
+			//åé¢è¿˜æœ‰å­—ç¬¦ï¼Œä¸¢å¼ƒå­—ç¬¦ç›´åˆ°å°‘äºç­‰äºmaxByteCharLength - endingStringByteLengthä½ï¼Œè¡¥å……endingString
 			if (charLen > maxByteCharLength) {
 				arrayList.remove(arrayList.size() - 1);
 				arrayList.remove(arrayList.size() - 1);
@@ -445,7 +445,7 @@ public final class CommonUtils {
 	}
 	
 	/**
-	 * ¼ÆËã×Ö·û´®ÔÚÎÄ±¾ÖĞ³öÏÖµÄ´ÎÊı
+	 * è®¡ç®—å­—ç¬¦ä¸²åœ¨æ–‡æœ¬ä¸­å‡ºç°çš„æ¬¡æ•°
 	 * @param src
 	 * @param targetString
 	 * @return
@@ -461,7 +461,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * ÑÓ³ÙÒ»¶ÎÊ±¼äÔÙ·µ»Ø
+	 * å»¶è¿Ÿä¸€æ®µæ—¶é—´å†è¿”å›
 	 * @param ms
 	 */
 	public static void delay(long ms) {
