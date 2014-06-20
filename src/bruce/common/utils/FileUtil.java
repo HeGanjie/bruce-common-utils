@@ -18,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
@@ -68,6 +69,14 @@ public final class FileUtil {
 	
 	public static boolean writeTextFile(File filePath, String fileContent) {
 		return writeFile(filePath, new ByteArrayInputStream(fileContent.getBytes()));
+	}
+	
+	public static boolean writeTextFile(File filePath, String fileContent, String enc) {
+		try {
+			return writeFile(filePath, new ByteArrayInputStream(fileContent.getBytes(enc)));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static boolean writeFile(File filePath, InputStream is) {
@@ -379,5 +388,18 @@ public final class FileUtil {
 	    } catch (Exception e) {
 	    	CommonUtils.throwRuntimeExceptionAndPrint(e);
 	    }
+	}
+	
+	public static int recurEncodingConvert(String path, String fileSuffix, String originalEnc, String finalEnc) {
+		List<File> txtFiles = recurListFiles(new File(path), fileSuffix);
+		for (File f : txtFiles) {
+			String content = readTextFile(f, originalEnc);
+			writeTextFile(f, content, finalEnc);
+		}
+		return txtFiles.size();
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(recurEncodingConvert("D:/test", ".txt", "gbk", "utf-8"));
 	}
 }

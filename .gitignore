@@ -1,6 +1,8 @@
 *.class
 bin/
 .settings/
+.gradle
+build/
 
 # Package Files #
 *.jar
