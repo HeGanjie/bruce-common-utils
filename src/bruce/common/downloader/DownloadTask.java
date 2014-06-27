@@ -346,7 +346,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 	public void markFinished() { state = DownloadTaskState.finished; }
 
 	public void setExtraHeader(String userAgent, String cookie) {
-		if (EXTRA_HEADER == null && (!CommonUtils.isStringNullOrWriteSpace(userAgent) || !CommonUtils.isStringNullOrWriteSpace(cookie))) {
+		if (EXTRA_HEADER == null && (!CommonUtils.isStringNullOrWhiteSpace(userAgent) || !CommonUtils.isStringNullOrWhiteSpace(cookie))) {
 			EXTRA_HEADER = new HashMap<String, String>();
 			EXTRA_HEADER.put(EXTRA_HEADER_USER_AGENT, userAgent);
 			EXTRA_HEADER.put(EXTRA_HEADER_COOKIE, cookie);
@@ -356,11 +356,11 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 
 	public static DownloadTask create(String url, String savePath, int downloaderCount) throws IOException, CloneNotSupportedException {
 		//从记录文件中读取url，如果url为null的话
-		if (CommonUtils.isStringNullOrWriteSpace(url) &&
-				!CommonUtils.isStringNullOrWriteSpace(FileUtil.getBaseNameByPath(savePath))) {
+		if (CommonUtils.isStringNullOrWhiteSpace(url) &&
+				!CommonUtils.isStringNullOrWhiteSpace(FileUtil.getBaseNameByPath(savePath))) {
 			url = DownloadRecord.load(new File(DownloadTask.getRecordFilePath(savePath))).url;
 		}
-		if (CommonUtils.isStringNullOrWriteSpace(url)) throw new MalformedURLException();
+		if (CommonUtils.isStringNullOrWhiteSpace(url)) throw new MalformedURLException();
 
 		String downloadAt = getDownloadAt(url, savePath);
 		if (new File(downloadAt).exists())
@@ -381,7 +381,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 		File atDir = new File(dirPath);
 		if (!atDir.exists()) atDir.mkdirs();
 
-		if (CommonUtils.isStringNullOrWriteSpace(FileUtil.getBaseNameByPath(savePath)))
+		if (CommonUtils.isStringNullOrWhiteSpace(FileUtil.getBaseNameByPath(savePath)))
 			return new File(dirPath, new URL(url).getPath()).getAbsolutePath();
 		else
 			return savePath;

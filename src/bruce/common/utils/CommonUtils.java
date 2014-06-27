@@ -71,9 +71,9 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static List<String> parseList(String listStr) {
-		if (isStringNullOrWriteSpace(listStr) || listStr.length() < 2) return null;
+		if (isStringNullOrWhiteSpace(listStr) || listStr.length() < 2) return null;
 		listStr = listStr.substring(1, listStr.length() - 1);
-		if (isStringNullOrWriteSpace(listStr)) return new ArrayList<String>();
+		if (isStringNullOrWhiteSpace(listStr)) return new ArrayList<String>();
 		
 		return Arrays.asList(listStr.split(", "));
 	}
@@ -147,7 +147,7 @@ public final class CommonUtils {
 	 * @param mValue
 	 * @return
 	 */
-	public static boolean isStringNullOrWriteSpace(final String mValue) {
+	public static boolean isStringNullOrWhiteSpace(final String mValue) {
 		return mValue == null || mValue.trim().isEmpty();
 	}
 
@@ -158,7 +158,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static boolean matchRegex(final String preMatch, final String regex) {
-		if (isStringNullOrWriteSpace(regex)) return false;
+		if (isStringNullOrWhiteSpace(regex)) return false;
 		return preMatch.matches(regex);
 	}
 
@@ -347,10 +347,10 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static Map<String, String> parseHashMap(String mapDescriptionStr, String seprator) {
-		if (isStringNullOrWriteSpace(mapDescriptionStr) || mapDescriptionStr.length() < 2) return null;
+		if (isStringNullOrWhiteSpace(mapDescriptionStr) || mapDescriptionStr.length() < 2) return null;
 
 		mapDescriptionStr = mapDescriptionStr.substring(1, mapDescriptionStr.length() - 1);
-		if (isStringNullOrWriteSpace(mapDescriptionStr)) return new LinkedHashMap<String, String>();
+		if (isStringNullOrWhiteSpace(mapDescriptionStr)) return new LinkedHashMap<String, String>();
 		
 		String[] kvs = mapDescriptionStr.split(seprator);
 		Map<String, String> map = null;
@@ -406,7 +406,7 @@ public final class CommonUtils {
 	 */
 	public static String limitStringLength(final String src, final int maxByteCharLength,
 			final String endingString, final int endingStringByteLength) {
-		if (isStringNullOrWriteSpace(src)) return src;
+		if (isStringNullOrWhiteSpace(src)) return src;
 
 		StringReader sr = new StringReader(src);
 		int read = 0;
@@ -461,7 +461,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static int countStringInText(String src, String targetString) {
-		if (isStringNullOrWriteSpace(src) || isStringNullOrWriteSpace(targetString)) return 0;
+		if (isStringNullOrWhiteSpace(src) || isStringNullOrWhiteSpace(targetString)) return 0;
 		int start = 0, index = -1, count = 0;
 		while ((index = src.indexOf(targetString, start)) != -1) {
 			count++;
