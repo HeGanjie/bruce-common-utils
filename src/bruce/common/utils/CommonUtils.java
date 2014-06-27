@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ import java.util.Set;
  *
  */
 public final class CommonUtils {
+	private static final DecimalFormat FILE_SIZE_FORMAT = new DecimalFormat("#,##0.#");
+	private static final String[] FILE_SIZE_UNITS = new String[] { "B", "KB", "MB", "GB", "TB", "EB" };
+	
 	private static final String DEBUGGING_ACTIVITY_SIMPLE_NAME = "DownloadUtils";
 //	public static final boolean DEBUGGING = true;
 	public static final boolean DEBUGGING = false;
@@ -39,6 +43,12 @@ public final class CommonUtils {
 		}
 	}
 
+	public static String readableFileSize(long size) {
+		if (size <= 0) return "0";
+		int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+		return buildString(FILE_SIZE_FORMAT.format(size / Math.pow(1024, digitGroups)), " ", FILE_SIZE_UNITS[digitGroups]);
+	}
+	
 	/**
 	 * 将数组转换成字符串，简单起见应该用Arrays.toString(Object[] arr)
 	 * @param arrObjects	对象数组

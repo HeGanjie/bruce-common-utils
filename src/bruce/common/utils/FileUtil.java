@@ -29,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import bruce.common.functional.Action1;
 import bruce.common.functional.EAction1;
 import bruce.common.functional.Func1;
 import bruce.common.functional.LambdaUtils;
@@ -80,14 +81,19 @@ public final class FileUtil {
 	}
 	
 	public static boolean writeFile(File filePath, InputStream is) {
+		return writeFile(filePath, is, null);
+	}
+	
+	public static boolean writeFile(File filePath, InputStream is, Action1<Long> progressCallback) {
 		FileOutputStream os = null;
 		File outFile = new File(filePath.getAbsolutePath() + ".tmp");
+		if (!outFile.getParentFile().exists()) outFile.mkdirs();
 		try {
 			if (outFile.exists() && !outFile.delete()) {
 				throw new IllegalStateException("File already writing");
 			}
 			os = new FileOutputStream(outFile);
-			copy(is, os);
+			copy(is, os, progressCallback);
 			return true;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -149,7 +155,7 @@ public final class FileUtil {
 		withOpen(destFile.getAbsolutePath(), "rw", new EAction1<RandomAccessFile>() {
 			@Override
 			public void call(RandomAccessFile writing) throws Throwable {
-				byte[] buf = new byte[8192];
+				byte[] buf = new byte[1024 * 8];
 				int nRead = 0;
 				writing.seek(destFile.length());
 				for (File file : files) {
@@ -324,12 +330,17 @@ public final class FileUtil {
 	}
 	
 	public static long copy(InputStream input, OutputStream output) throws IOException {
+	    return copy(input, output, null);
+	}
+	
+	public static long copy(InputStream input, OutputStream output, Action1<Long> progressCallback) throws IOException {
 	    byte[] buffer = new byte[BUFFER_SIZE];
 	    long count = 0;
 	    int n;
 	    while ((n = input.read(buffer)) != -1) {
 	        output.write(buffer, 0, n);
 	        count += n;
+	        if (progressCallback != null) progressCallback.call(count);
 	    }
 	    return count;
 	}

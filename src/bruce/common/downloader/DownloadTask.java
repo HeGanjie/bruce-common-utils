@@ -210,7 +210,7 @@ public final class DownloadTask implements Task, Cloneable, Serializable {
 				public void call(RandomAccessFile writingFile) throws Throwable {
 					if (finishedLen != 0) writingFile.seek(finishedLen);
 
-					byte[] tmpBuf = new byte[1024];
+					byte[] tmpBuf = new byte[1024 * 8];
 					int nRead = 0; long lastReportDownLen = finishedLen;
 					InputStream inputStream = inputStreamPtr.value;
 					while (mainTask.getState() == DownloadTaskState.downloading &&
