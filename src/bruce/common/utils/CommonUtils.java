@@ -334,7 +334,7 @@ public final class CommonUtils {
 	 * @return
 	 */
 	public static boolean isLegalIndex(final List<?> l, final int index) {
-		return 0 <= index && index < l.size();
+		return l != null && 0 <= index && index < l.size();
 	}
 	
 	public static Map<String, String> parseHashMap(String mapToStringResult) {
