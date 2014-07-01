@@ -586,6 +586,16 @@ public final class CommonUtils {
 		}
 		return null;
 	}
+
+	public static void setPrivateField(Object obj, String fieldName, Object val) {
+		try {
+			Field f = obj.getClass().getDeclaredField(fieldName);
+			f.setAccessible(true);
+			f.set(obj, val);
+		} catch (Exception e) {
+			if (DEBUGGING) e.printStackTrace();
+		}
+	}
 	
 	public static <E> List<List<E>> partitionAll(int n, List<E> ls) {
 		List<List<E>> resultList = new ArrayList<List<E>>();
