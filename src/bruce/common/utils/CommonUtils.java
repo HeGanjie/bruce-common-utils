@@ -95,6 +95,15 @@ public final class CommonUtils {
 			sb.append(args[i]);
 		return sb.toString();
 	}
+	
+	public static String buildCompactString(final Object ... args) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < args.length; i++) {
+			if (args[i] != null)
+				sb.append(args[i]);
+		}
+		return sb.toString();
+	}
 
 	/**
 	 * 格式化输出调试信息，使用方法类似：{@link String#format(String, Object...)}
