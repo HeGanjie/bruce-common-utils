@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,6 +46,22 @@ public final class FileUtil {
 	private static final int BUFFER_SIZE = 1024 * 8;
 	private static Pattern pathPattern = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
 
+	public static void copy(File src, File dst) {
+	    FileInputStream is = null;
+		try {
+			is = new FileInputStream(src);
+			writeFile(dst, is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) { }
+			}
+		}
+	}
+	
 	/**
 	 * 使用默认的编码读取项目文本资源文件
 	 * @param resPath	资源文件路径
