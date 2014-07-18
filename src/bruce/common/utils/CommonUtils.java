@@ -615,4 +615,42 @@ public final class CommonUtils {
 		}
 		return resultList;
 	}
+
+	public static boolean equalsIgnoreCaseInString(String a, int ai, String b, int bi) {
+		int chkLen = Math.min(a.length() - ai, b.length() - bi);
+		for (int c = 0; c < chkLen; ai++, bi++, c++) {
+			char ac = a.charAt(ai);
+			char bc = b.charAt(bi);
+			if (ac == bc
+				|| Character.toLowerCase(ac) == Character.toLowerCase(bc)
+				|| Character.toUpperCase(ac) == Character.toUpperCase(bc)) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static int indexOfIgnoreCase(String longer, int skip, String shorter) {
+		char chInShorter = shorter.charAt(0);
+		int indexOf = longer.indexOf(chInShorter, skip);
+		if (indexOf == -1 && chInShorter <= 'z') {
+			char switchCaseHead = Character.isLowerCase(chInShorter)
+					? Character.toUpperCase(chInShorter)
+					: Character.toLowerCase(chInShorter);
+			indexOf = longer.indexOf(switchCaseHead, skip);
+		}
+		
+		if (indexOf == -1) return -1;
+		if (equalsIgnoreCaseInString(longer, indexOf, shorter, 0)) {
+			return indexOf;
+		} else {
+			return indexOfIgnoreCase(longer, skip + shorter.length(), shorter);
+		}
+	}
+	
+	public static boolean containsIgnoreCase(String longer, String shorter) {
+		return -1 != indexOfIgnoreCase(longer, 0, shorter);
+	}
 }
