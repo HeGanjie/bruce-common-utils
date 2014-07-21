@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
-public interface PersistentCollection<E> extends Serializable {
+public interface PersistentCollection<E> extends Serializable , Iterable<E> {
 	public Collection<E> getCollection();
 
 	public PersistentCollection<E> conj(E e);
