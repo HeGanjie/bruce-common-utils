@@ -616,14 +616,15 @@ public final class CommonUtils {
 		return resultList;
 	}
 
-	public static boolean equalsIgnoreCaseInString(String a, int ai, String b, int bi) {
-		int chkLen = Math.min(a.length() - ai, b.length() - bi);
+	public static boolean equalsIgnoreCaseInString(String longer, int ai, String shorter, int bi) {
+		int chkLen = shorter.length() - bi;
+		if (longer.length() - ai < chkLen) return false;
 		for (int c = 0; c < chkLen; ai++, bi++, c++) {
-			char ac = a.charAt(ai);
-			char bc = b.charAt(bi);
+			char ac = longer.charAt(ai);
+			char bc = shorter.charAt(bi);
 			if (ac == bc
-				|| Character.toLowerCase(ac) == Character.toLowerCase(bc)
-				|| Character.toUpperCase(ac) == Character.toUpperCase(bc)) {
+				|| ac == Character.toUpperCase(bc)
+				|| ac == Character.toLowerCase(bc)) {
 				continue;
 			} else {
 				return false;
