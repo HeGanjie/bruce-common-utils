@@ -654,4 +654,9 @@ public final class CommonUtils {
 	public static boolean containsIgnoreCase(String longer, String shorter) {
 		return -1 != indexOfIgnoreCase(longer, 0, shorter);
 	}
+
+	public static <T> List<T> dropTake(List<T> ls, int pageIndex, int pageSize) {
+		int fromIndex = pageIndex * pageSize;
+		return ls.subList(fromIndex, Math.min(ls.size(), fromIndex + pageSize));
+	}
 }
