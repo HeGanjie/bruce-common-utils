@@ -346,6 +346,10 @@ public final class CommonUtils {
 		return l != null && 0 <= index && index < l.size();
 	}
 	
+	public static <T> boolean isLegalIndex(final T[] l, final int index) {
+		return l != null && 0 <= index && index < l.length;
+	}
+	
 	public static Map<String, String> parseHashMap(String mapToStringResult) {
 		return parseHashMap(mapToStringResult, ", ");
 	}
@@ -655,8 +659,8 @@ public final class CommonUtils {
 		return -1 != indexOfIgnoreCase(longer, 0, shorter);
 	}
 
-	public static <T> List<T> dropTake(List<T> ls, int pageIndex, int pageSize) {
-		int fromIndex = pageIndex * pageSize;
-		return ls.subList(fromIndex, Math.min(ls.size(), fromIndex + pageSize));
+	public static <T> List<T> paging(List<T> ls, int pageIndex, int pageSize) {
+		int startIndex = pageIndex * pageSize;
+		return ls.subList(startIndex, Math.min(ls.size(), startIndex + pageSize));
 	}
 }
