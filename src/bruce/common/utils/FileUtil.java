@@ -160,14 +160,18 @@ public final class FileUtil {
 		return null;
 	}
 	
+	public static void catFile(final File destFile, final File...files) {
+		catFile(destFile, Arrays.asList(files));
+	}
+	
 	/**
 	 * 合并文件
 	 * @param destFile
 	 * @param files
 	 * @throws IOException
 	 */
-	public static void catFile(final File destFile, final File...files) {
-		if (files.length == 0) return;
+	public static void catFile(final File destFile, final List<File> files) {
+		if (files == null || files.isEmpty()) return;
 		withOpen(destFile.getAbsolutePath(), "rw", new EAction1<RandomAccessFile>() {
 			@Override
 			public void call(RandomAccessFile writing) throws Throwable {
