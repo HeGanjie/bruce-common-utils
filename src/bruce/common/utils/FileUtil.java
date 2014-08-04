@@ -120,7 +120,10 @@ public final class FileUtil {
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
-					if (!outFile.renameTo(filePath)) outFile.delete();
+					filePath.delete();
+					if (!outFile.renameTo(filePath)) {
+						throw new IllegalStateException("Writing to an opening file!");
+					}
 				}
 			}
 		}
@@ -431,6 +434,5 @@ public final class FileUtil {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(recurEncodingConvert("D:/test", ".txt", "gbk", "utf-8"));
 	}
 }
