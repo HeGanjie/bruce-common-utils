@@ -249,24 +249,24 @@ public final class FileUtil {
 
 	/**
 	 * 从BufferedReader读取文本内容
-	 * @param xmlFileReader bufferedReader
+	 * @param reader bufferedReader
 	 * @return	文本内容
 	 */
-	private static String readTextFromReader(final BufferedReader xmlFileReader) {
+	private static String readTextFromReader(final BufferedReader reader) {
 		StringBuffer sb = new StringBuffer();
-		String temString = null;
 
+		char[] buf = new char[1024 * 4];
+		int readLen;
 		try {
-			while (null != (temString = xmlFileReader.readLine())) {
-				sb.append(temString);
-				sb.append('\n');
+			while (-1 != (readLen = reader.read(buf))) {
+				sb.append(buf, 0, readLen);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (null != xmlFileReader) {
+			if (null != reader) {
 				try {
-					xmlFileReader.close();
+					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
