@@ -663,4 +663,8 @@ public final class CommonUtils {
 		int startIndex = pageIndex * pageSize;
 		return ls.subList(startIndex, Math.min(ls.size(), startIndex + pageSize));
 	}
+
+	public static <T> T spareVal(T first, T second) {
+		return first == null ? second : first;
+	}
 }
