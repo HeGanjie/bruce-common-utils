@@ -433,6 +433,18 @@ public final class FileUtil {
 		return txtFiles.size();
 	}
 	
+	public static void deleteDir(File dir) {
+		if (!dir.isDirectory()) return;
+		File[] files = dir.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory())
+				deleteDir(files[i]);
+			else
+				files[i].delete();
+		}
+		dir.delete();
+	}
+
 	public static void main(String[] args) {
 	}
 }
