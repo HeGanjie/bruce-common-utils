@@ -44,12 +44,12 @@ import bruce.common.functional.PersistentSet;
 public final class FileUtil {
 	public static final String DEFAULT_CHARSET = "utf-8";
 	private static final int BUFFER_SIZE = 1024 * 8;
-	private static Pattern pathPattern = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
-	private static final Set<String> imgSuffixSet = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP").getModifiableCollection();
+	private static final Pattern FILENAME_IN_PATH_PATTERN = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
+	private static final Set<String> IMAGE_SUFFIX_SET = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP").getModifiableCollection();
 
 	public static boolean isImageFileSuffix(String path) {
 		String suffix = getSuffixByFileName(getBaseNameByPath(path));
-		return imgSuffixSet.contains(CommonUtils.emptyIfNull(suffix).toUpperCase());
+		return IMAGE_SUFFIX_SET.contains(CommonUtils.emptyIfNull(suffix).toUpperCase());
 	}
 	
 	public static String getSuffixByFileName(String fileName) {
@@ -248,7 +248,7 @@ public final class FileUtil {
 	 * @return	文件名
 	 */
 	public static String getBaseNameByPath(final String path) {
-		Matcher m = pathPattern.matcher(path);
+		Matcher m = FILENAME_IN_PATH_PATTERN.matcher(path);
 		if (!m.matches()) return null;
 		return m.group(2);
 	}
@@ -259,7 +259,7 @@ public final class FileUtil {
 	 * @return	文件夹路径
 	 */
 	public static String getFileDirPath(final String path) {
-		Matcher m = pathPattern.matcher(path);
+		Matcher m = FILENAME_IN_PATH_PATTERN.matcher(path);
 		if (!m.matches()) return null;
 		return m.group(1);
 	}
