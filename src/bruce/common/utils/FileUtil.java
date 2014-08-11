@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -33,6 +34,7 @@ import bruce.common.functional.Action1;
 import bruce.common.functional.EAction1;
 import bruce.common.functional.Func1;
 import bruce.common.functional.LambdaUtils;
+import bruce.common.functional.PersistentSet;
 
 /**
  * 文件工具类，操作文件的工具都写在这里
@@ -43,7 +45,22 @@ public final class FileUtil {
 	public static final String DEFAULT_CHARSET = "utf-8";
 	private static final int BUFFER_SIZE = 1024 * 8;
 	private static Pattern pathPattern = Pattern.compile("(.+(?:\\/|\\\\))(.+)?$");
+	private static final Set<String> imgSuffixSet = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP").getModifiableCollection();
 
+	public static boolean isImageFileSuffix(String path) {
+		String suffix = getSuffixByFileName(getBaseNameByPath(path));
+		return imgSuffixSet.contains(CommonUtils.emptyIfNull(suffix).toUpperCase());
+	}
+	
+	public static String getSuffixByFileName(String fileName) {
+		if (CommonUtils.isStringNullOrWhiteSpace(fileName)) {
+			return null;
+		} else {
+			int lastIndexOfPoint = fileName.lastIndexOf('.');
+			return lastIndexOfPoint == -1 ? null : fileName.substring(lastIndexOfPoint + 1);
+		}
+	}
+	
 	public static void copy(File src, File dst) {
 	    FileInputStream is = null;
 		try {
