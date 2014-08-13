@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.io.Reader;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -269,7 +270,7 @@ public final class FileUtil {
 	 * @param reader bufferedReader
 	 * @return	文本内容
 	 */
-	private static String readTextFromReader(final BufferedReader reader) {
+	public static String readTextFromReader(final Reader reader) {
 		StringBuffer sb = new StringBuffer();
 
 		char[] buf = new char[1024 * 4];
