@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -359,6 +360,7 @@ public final class FileUtil {
 			@Override
 			public boolean accept(File f) { return f.isDirectory(); }
 		});
+        if (dirs == null) return Collections.emptyList();
         
         List<File> selectMany = LambdaUtils.selectMany(Arrays.asList(dirs), new Func1<Collection<File>, File>() {
 			@Override
@@ -460,16 +462,27 @@ public final class FileUtil {
 	
 	public static void deleteDir(File dir) {
 		if (!dir.isDirectory()) return;
-		File[] files = dir.listFiles();
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].isDirectory())
-				deleteDir(files[i]);
+		for (File file : dir.listFiles()) {
+			if (file.isDirectory())
+				deleteDir(file);
 			else
-				files[i].delete();
+				file.delete();
 		}
 		dir.delete();
 	}
 
+	public static long getFileSize(File file) {
+		if (!file.isDirectory()) return file.length();
+		long length = 0;
+	    for (File f : file.listFiles()) {
+	        if (f.isDirectory())
+	            length += getFileSize(f);
+	        else
+	            length += f.length();
+	    }
+	    return length;
+	}
+	
 	public static void main(String[] args) {
 	}
 
