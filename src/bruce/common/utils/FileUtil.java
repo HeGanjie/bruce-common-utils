@@ -257,7 +257,7 @@ public final class FileUtil {
 	 */
 	public static String getBaseNameByPath(final String path) {
 		Matcher m = FILENAME_IN_PATH_PATTERN.matcher(path);
-		if (!m.matches()) return null;
+		if (!m.find()) return null;
 		return m.group(2);
 	}
 	
@@ -268,7 +268,7 @@ public final class FileUtil {
 	 */
 	public static String getFileDirPath(final String path) {
 		Matcher m = FILENAME_IN_PATH_PATTERN.matcher(path);
-		if (!m.matches()) return null;
+		if (!m.find()) return null;
 		return m.group(1);
 	}
 
