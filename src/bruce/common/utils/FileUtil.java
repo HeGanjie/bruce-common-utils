@@ -45,7 +45,7 @@ import bruce.common.functional.PersistentSet;
 public final class FileUtil {
 	public static final String DEFAULT_CHARSET = "utf-8";
 	private static final int BUFFER_SIZE = 1024 * 8;
-	private static final Pattern FILENAME_IN_PATH_PATTERN = Pattern.compile("(.+(?:\\/|\\\\))([^?]+)(\\?.+)?$");
+	private static final Pattern FILENAME_IN_PATH_PATTERN = Pattern.compile("(.+(?:\\/|\\\\))([^?\\s]+)(\\?.+)?");
 	private static final Set<String> IMAGE_SUFFIX_SET = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP").getModifiableCollection();
 	private static final Set<String> MEDIA_SUFFIX_SET = new PersistentSet<>(
 			"MP3", "MP4", "FLV", "OGG", "WMV", "WMA", "AVI", "MPEG").getModifiableCollection();
