@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +20,10 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -355,7 +358,7 @@ public final class FileUtil {
 		return null;
 	}
 
-	public static List<File> recurListFiles(File root, final String ...suffixs) {
+	public static List<File> recurListFiles(File root, final FileFilter fileFilter) {
         File[] dirs = root.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File f) { return f.isDirectory(); }
@@ -364,19 +367,24 @@ public final class FileUtil {
         
         List<File> selectMany = LambdaUtils.selectMany(Arrays.asList(dirs), new Func1<Collection<File>, File>() {
 			@Override
-			public Collection<File> call(File dir) { return recurListFiles(dir, suffixs); }
+			public Collection<File> call(File dir) { return recurListFiles(dir, fileFilter); }
 		});
         
-        File[] files = root.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-            	for (String suffix : suffixs) {
-            		if (name.endsWith(suffix)) return true;
-				}
-            	return false;
-            }
-        });
-        selectMany.addAll(Arrays.asList(files));
+        selectMany.addAll(Arrays.asList(root.listFiles(fileFilter)));
         return selectMany;
+	}
+	
+	public static List<File> recurListFiles(File root, final String ...suffixs) {
+		return recurListFiles(root, new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				String name = pathname.getName();
+				for (String suffix : suffixs) {
+					if (name.endsWith(suffix)) return true;
+				}
+				return false;
+			}
+		});
 	}
 	
 	public static long copy(InputStream input, OutputStream output) throws IOException {
@@ -484,6 +492,18 @@ public final class FileUtil {
 	}
 	
 	public static void main(String[] args) {
+	}
+
+	public static long getCreationTime(File file, long valIfFail) {
+		try {
+			BasicFileAttributes readAttributes
+				= Files.getFileAttributeView(Paths.get(file.getAbsolutePath()), BasicFileAttributeView.class)
+					.readAttributes();
+			return readAttributes.creationTime().toMillis();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return valIfFail;
 	}
 
 }
