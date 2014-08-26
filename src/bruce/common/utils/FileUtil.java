@@ -3,7 +3,6 @@ package bruce.common.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -105,12 +104,8 @@ public final class FileUtil {
 	 * @return	文件内容
 	 */
 	public static String readResourceTextFile(final String resPath, final String encodingName) {
-		InputStream xmlResourceInputStream = FileUtil.class.getClassLoader()
-				.getResourceAsStream(resPath);
-		BufferedReader xmlFileReader = new BufferedReader(
-				new InputStreamReader(xmlResourceInputStream, Charset.forName(encodingName)));
-
-		return readTextFromReader(xmlFileReader);
+		InputStream xmlResourceInputStream = FileUtil.class.getClassLoader().getResourceAsStream(resPath);
+		return readTextFromReader(new InputStreamReader(xmlResourceInputStream, Charset.forName(encodingName)));
 	}
 	
 	public static boolean writeTextFile(File filePath, String fileContent) {
@@ -237,9 +232,9 @@ public final class FileUtil {
 	 * @return
 	 */
 	public static String readTextFile(final File file, String encoding) {
-		BufferedReader br = null;
+		InputStreamReader br = null;
 		try {
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
+			br = new InputStreamReader(new FileInputStream(file), encoding);
 			return readTextFromReader(br);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
