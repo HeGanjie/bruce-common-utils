@@ -128,13 +128,14 @@ public final class FileUtil {
 		FileOutputStream os = null;
 		File outFile = new File(filePath.getAbsolutePath() + ".tmp");
 		if (!outFile.getParentFile().exists()) outFile.mkdirs();
+		boolean success = false;
 		try {
 			if (outFile.exists() && !outFile.delete()) {
 				throw new IllegalStateException("File already writing");
 			}
 			os = new FileOutputStream(outFile);
 			copy(is, os, progressCallback);
-			return true;
+			success = true;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -144,6 +145,7 @@ public final class FileUtil {
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
+					if (!success) return false;
 					filePath.delete();
 					if (!outFile.renameTo(filePath)) {
 						throw new IllegalStateException("Writing to an opening file!");
@@ -151,6 +153,7 @@ public final class FileUtil {
 				}
 			}
 		}
+		return success;
 	}
 
 	public static boolean writeObj(Serializable src, String absPath) {
