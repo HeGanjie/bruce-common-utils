@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -49,13 +48,19 @@ public final class FileUtil {
 	public static final String DEFAULT_CHARSET = "utf-8";
 	private static final int BUFFER_SIZE = 1024 * 8;
 	private static final Pattern FILENAME_IN_PATH_PATTERN = Pattern.compile("(.+(?:\\/|\\\\))([^?\\s]+)(\\?.+)?");
-	private static final Set<String> IMAGE_SUFFIX_SET = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP").getModifiableCollection();
-	private static final Set<String> MEDIA_SUFFIX_SET = new PersistentSet<>(
-			"MP3", "MP4", "FLV", "OGG", "WMV", "WMA", "AVI", "MPEG").getModifiableCollection();
+	private static final PersistentSet<String> IMAGE_SUFFIX_SET = new PersistentSet<>("JPG", "GIF", "PNG", "JPEG", "BMP");
+	private static final PersistentSet<String> AUDIO_SUFFIX_SET = new PersistentSet<>("MP3", "OGG", "WAV", "WMA");
+	private static final PersistentSet<String> VIDEO_SUFFIX_SET = new PersistentSet<>("MP4", "FLV", "WMV", "AVI", "MPEG", "MOV");
+
+	public static boolean isAudioFileSuffix(String path) {
+		String suffix = getSuffixByFileName(getBaseNameByPath(path));
+		return AUDIO_SUFFIX_SET.contains(CommonUtils.emptyIfNull(suffix).toUpperCase());
+	}
 
 	public static boolean isMediaFileSuffix(String path) {
 		String suffix = getSuffixByFileName(getBaseNameByPath(path));
-		return MEDIA_SUFFIX_SET.contains(CommonUtils.emptyIfNull(suffix).toUpperCase());
+		String suffixUpper = CommonUtils.emptyIfNull(suffix).toUpperCase();
+		return AUDIO_SUFFIX_SET.contains(suffixUpper) || VIDEO_SUFFIX_SET.contains(suffixUpper);
 	}
 	
 	public static boolean isImageFileSuffix(String path) {
