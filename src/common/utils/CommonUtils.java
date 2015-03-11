@@ -85,7 +85,8 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * 高效率地根据参数，构造字符串
+	 * 高效率地根据参数，构造字符串<br>
+	 * Java 1.7 之后编译器对字符串拼接做了优化，无需再使用此函数
 	 * @param args
 	 * @return
 	 */
